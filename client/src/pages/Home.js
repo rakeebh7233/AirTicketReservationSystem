@@ -1,42 +1,9 @@
-import './App.css';
-import {BrowserRouter as Router, Route, Routes, Link} from "react-router-dom"
-//Switch was replaced by Routes
-import Home from './pages/Home';
-import RegisterCustomer from './pages/RegisterCustomer';
-import RegisterStaff from './pages/RegisterStaff';
-
-function App() {
-
-  return (
-    <div className="App">
-      <Router>
-        <div className="navbar">
-          <Link to="/">Home Page</Link>
-          <Link to="/register/customer">Customer Registration</Link>
-          <Link to="/register/staff">Staff Registration</Link>
-        </div>
-        <Routes> 
-          <Route path="/" element={<Home/>} />
-          <Route path="/register/customer" element={<RegisterCustomer/>} />
-          <Route path="/register/staff" element={<RegisterStaff/>} />
-        </Routes>
-      </Router>
-    </div>
-  )
-
-}
-
-export default App;
+import React from "react";
+import axios from "axios"; 
+import { useEffect, useState} from "react";
 
 
-
-
-
-
-
-/*
-
-function App() {
+function Home() {
 
   const [listOfFlights, setListOfFlights] = useState([]); 
 
@@ -69,19 +36,4 @@ function App() {
   );
 }
 
-export default App;
-
-*/
-
-
-/*
-function App() {
-  return (
-    <div className="App">
-      <div className="content">
-        <h1>App Component</h1>
-      </div>
-    </div>
-  );
-}
-*/
+export default Home;
