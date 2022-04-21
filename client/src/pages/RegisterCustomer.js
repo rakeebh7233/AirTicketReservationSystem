@@ -8,7 +8,7 @@ function RegisterCustomer() {
 
     //const [listOfCustomers, setListOfCustomers] = useState([]);
 
-    const intialValues = {
+    const initialValues = {
         email_address: null,
         password: null,
         name: null,

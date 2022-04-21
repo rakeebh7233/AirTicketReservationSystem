@@ -15,6 +15,7 @@ function App() {
           <Link to="/register/customer">Customer Registration</Link>
           <Link to="/register/staff">Staff Registration</Link>
         </div>
+        //<Home />
         <Routes> 
           <Route path="/" element={<Home/>} />
           <Route path="/register/customer" element={<RegisterCustomer/>} />
