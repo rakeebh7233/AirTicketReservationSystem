@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-let connection = mysql.createPool({
+const connection = mysql.createPool({
     host: "127.0.0.1",
     user: "root",
     database: "airticket_system",
@@ -16,4 +16,4 @@ connection.getConnection(function(err) {
     console.log("Connected: " + connection.threadId);
 })
 
-module.exports = conection;
+module.exports = connection;

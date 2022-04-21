@@ -45,107 +45,116 @@ function RegisterCustomer() {
     });
 
     return (  
-        <div className="registerCustomer">
-            <Formik initialValues={intialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+        <div className="registerCustomerPage">
+            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
                 <Form className="formRegisterCustomer">
-                    <label>Email_Address: </label>
-                    <ErrorMessage name="email_address" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="email_address" 
-                        placeholder=""
-                    />
-                    <label>Password: </label>
-                    <ErrorMessage name="password" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="password" 
-                        placeholder=""
-                    />
-                    <label>Name: </label>
-                    <ErrorMessage name="name" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="name" 
-                        placeholder=""
-                    />
-                    <label>Phone Number: </label>
-                    <ErrorMessage name="phone_number" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="phone_number" 
-                        placeholder="555-555-5555"
-                    />
-                    <label>Date of Birth: </label>
-                    <ErrorMessage name="date_of_birth" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="date_of_birth" 
-                        placeholder="YYYY-MM-DD"
-                    />
-                    <label>Address</label>
-                    <label>Building Number: </label>
-                    <ErrorMessage name="building_number" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="building_number" 
-                        placeholder="YYYY-MM-DD"
-                    />
-                    <label>Street: </label>
-                    <ErrorMessage name="street" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="street" 
-                        placeholder=""
-                    />
-                    <label>City: </label>
-                    <ErrorMessage name="city" component="em"/>
-                    <Field
-                        autocomplete="off" 
-                        id="inputeRegisterCustomer" 
-                        name="city" 
-                        placeholder=""
-                    />
-                    <label>State: </label>
-                    <ErrorMessage name="state" component="em"/>
-                    <Field
-                        autocomplete="off" 
-                        id="inputeRegisterCustomer" 
-                        name="state" 
-                        placeholder=""
-                    />
-                    <label>Passport Information</label>
-                    <label>Passport Number: </label>
-                    <ErrorMessage name="passport_number" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="passport_number" 
-                        placeholder=""
-                    />
-                    <label>Passport Expiration Date: </label>
-                    <ErrorMessage name="passport_expiration" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="passport_expiration" 
-                        placeholder="YYYY-MM-DD"
-                    />
-                    <label>Passport Country: </label>
-                    <ErrorMessage name="passport_country" component="em"/>
-                    <Field 
-                        autocomplete="off"
-                        id="inputeRegisterCustomer" 
-                        name="passport_country" 
-                        placeholder=""
-                    />
+                    <div>
+                        <h3>General Info</h3>
+                        <label>Email_Address: </label>
+                        <ErrorMessage name="email_address" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="email_address" 
+                            placeholder=""
+                        />
+                        <label>Password: </label>
+                        <ErrorMessage name="password" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="password" 
+                            placeholder=""
+                        />
+                        <label>Name: </label>
+                        <ErrorMessage name="name" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="name" 
+                            placeholder=""
+                        />
+                        <label>Phone Number: </label>
+                        <ErrorMessage name="phone_number" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="phone_number" 
+                            placeholder="555-555-5555"
+                        />
+                        <label>Date of Birth: </label>
+                        <ErrorMessage name="date_of_birth" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="date_of_birth" 
+                            placeholder="YYYY-MM-DD"
+                        />
+                    </div>
+                    <div>
+                        <h3>Address</h3>
+                        <label>Building Number: </label>
+                        <ErrorMessage name="building_number" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="building_number" 
+                            placeholder=""
+                        />
+                        <label>Street: </label>
+                        <ErrorMessage name="street" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="street" 
+                            placeholder=""
+                        />
+                        <label>City: </label>
+                        <ErrorMessage name="city" component="span"/>
+                        <Field
+                            autocomplete="off" 
+                            id="inputRegisterCustomer" 
+                            name="city" 
+                            placeholder=""
+                        />
+                        <label>State: </label>
+                        <ErrorMessage name="state" component="span"/>
+                        <Field
+                            autocomplete="off" 
+                            id="inputRegisterCustomer" 
+                            name="state" 
+                            placeholder=""
+                        />
+                    </div>
+                    <div>
+                        <h3>Passport Information</h3>
+                        <label>Passport Number: </label>
+                        <ErrorMessage name="passport_number" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="passport_number" 
+                            placeholder=""
+                        />
+                        <label>Passport Expiration Date: </label>
+                        <ErrorMessage name="passport_expiration" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="passport_expiration" 
+                            placeholder="YYYY-MM-DD"
+                        />
+                        <label>Passport Country: </label>
+                        <ErrorMessage name="passport_country" component="span"/>
+                        <Field 
+                            autocomplete="off"
+                            id="inputRegisterCustomer" 
+                            name="passport_country" 
+                            placeholder=""
+                        />
+                    </div>
+                    {/* break */}
+                    <div class="break"></div> 
                     <button type="submit">Register</button>
                 </Form>
             </Formik>

@@ -79,7 +79,7 @@ Flight.searchForFlight = (source_city, dest_city, dep_date, result) => {
 };
 
 Flight.getFlightStatus = (al_name, flight_num, dep_date, arr_date, result) => {
-    sql.query('SELECt * FROM Flight WHERE airline_name = ? AND flight_number = ? AND departure_date = ? AND arrival_date = ?', 
+    sql.query('SELECt airline_name, flight_number, status FROM Flight WHERE airline_name = ? AND flight_number = ? AND departure_date = ? AND arrival_date = ?', 
     [al_name, flight_num, dep_date, arr_date], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -103,3 +103,34 @@ Flight.updateFlightStatus = (al_name, flight_num, dep_date, dep_time, new_status
         result(null,res);
     });
 };
+
+
+
+Flight.insertAirplane = (airplane_id, airline_name, num_seats, manufacturing_company, age, result) => {
+    sql.query('INSERT INTO Airplane VALUES (?, ?, ?, ?, ?)', [airplane_id, airline_name, num_seats,
+    manufacturing_company, age], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Inserted Airplane: " + res);
+        result(null,res);
+    });
+};
+
+Flight.insertAirport = (airport_code, name, city, country, airport_type, result) => {
+    sql.query('INSERT INTO Airport VALUES (?, ?, ?, ?, ?)', [airport_code, name, city, country, airport_type],
+    (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Inserted Airport: " + res);
+        result(null,res);
+    });
+};
+
+
+
