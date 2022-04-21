@@ -17,7 +17,7 @@ function RegisterStaff() {
     };
 
     const onSubmit = (data) => {
-        axios.post("http://localhost:3001/register/staff", data).then((response) => {
+        axios.post("", data).then((response) => {
             console.log("Data will be inserted into staff table")
         });
     };
