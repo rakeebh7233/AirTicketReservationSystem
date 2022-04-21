@@ -5,8 +5,15 @@ const cors = require('cors');
 const conn = require('./db');
 
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));  
 app.use(cors());
-app.use(express.urlencoded({extended:false}));
+
+// Sessions
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
 
 //Routers
 const flightRouter = require("./routes/Flight");

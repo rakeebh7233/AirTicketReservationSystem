@@ -1,15 +1,16 @@
+import '../styles/Home.css';
 import React from "react";
 import axios from "axios"; 
 import { useEffect, useState} from "react";
 
 
 function Home() {
-
+  /*
   const [listOfFlights, setListOfFlights] = useState([]); 
 
   useEffect(() => {
     axios.get("http://localhost:3001/flights").then((response) => {
-      setListOfFlights(response.data); //testing for data response
+      setListOfFlights(response); //testing for data response
     });
   }, []); 
 
@@ -33,7 +34,7 @@ function Home() {
         );
       })} 
     </div> 
-  );
+  ); */
 }
 
 export default Home;
