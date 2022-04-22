@@ -3,6 +3,8 @@ import axios from "axios";
 //import { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
+import '../styles/RegisterCustomer.css';
+
 
 function RegisterCustomer() {
 
@@ -24,7 +26,7 @@ function RegisterCustomer() {
     };
 
     const onSubmit = (data) => {
-        axios.post("", data).then((response) => {
+        axios.post("http://localhost:3001/register/customer", data).then((response) => {
             console.log("Data will be inserted into customer table")
         });
     };

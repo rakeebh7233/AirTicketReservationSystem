@@ -1,0 +1,49 @@
+.registerStaffPage {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 3rem;
+}
+
+.formRegisterStaff {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 20px;
+    border: 5px solid dodgerblue;
+    border-radius: 5px;
+    /* width: 80%; */
+    max-width: 30%;
+    margin: auto;
+}
+
+.formRegisterStaff #inputRegisterStaff {
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 2px solid grey;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-size: 16px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 1em;
+}
+
+.formRegisterStaff button {
+    margin-top: 15px;
+    height: 40px;
+    border: none;
+    background-color: lightskyblue;
+    border-radius: 5px;
+    color: white;
+    font-size: x-large;
+}
+
+.formRegisterStaff button:hover {
+    cursor: pointer;
+    background-color: dodgerblue;
+}
+
+span {
+    color: red;
+}

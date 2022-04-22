@@ -1,5 +1,5 @@
 import './styles/App.css';
-import {BrowserRouter as Router, Route, Routes, Link} from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom"
 import Home from './pages/Home';
 import RegisterCustomer from './pages/RegisterCustomer';
 import RegisterStaff from './pages/RegisterStaff';
@@ -9,45 +9,47 @@ function App() {
   return (
     <div className="App">
       <Router>
-          <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">Logo</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>  
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Login</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="/login/customer">Customer</a></li>
-                      <li><a class="dropdown-item" href="/login/staff">Staff</a></li>
-                    </ul>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Register</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="/register/customer">Customer</a></li>
-                      <li><a class="dropdown-item" href="/register/staff">Staff</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/">Logo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="collapsibleNavbar">
+              <ul class="navbar-nav">
+                <li class="nav-item ">
+                  <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown ">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Login</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/login/customer">Customer</a></li>
+                    <li><a class="dropdown-item" href="/login/staff">Staff</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Register</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/register/customer">Customer</a></li>
+                    <li><a class="dropdown-item" href="/register/staff">Staff</a></li>
+                  </ul>
+                </li>
+              </ul>
             </div>
-          </nav>
-        <Routes> 
-          <Route path="/" element={<Home/>} />
-          <Route path="/register/customer" element={<RegisterCustomer/>} />
-          <Route path="/register/staff" element={<RegisterStaff/>} />
+          </div>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/register/customer" element={<RegisterCustomer />} />
+          <Route path="/register/staff" element={<RegisterStaff />} />
         </Routes>
       </Router>
     </div>

@@ -1,5 +1,23 @@
 const sql = require('../db');
 
+// v1
+const Customer = function createCustomer(customer) {
+    let result = {};
+    result.email_address = customer.email_address;
+    result.password = customer.password;
+    result.name = customer.name;
+    result.building_number = customer.building_number;
+    result.street = customer.street;
+    result.city = customer.city;
+    result.state = customer.state;
+    result.phone_number = customer.phone_number;
+    result.passport_number = customer.passport_number;
+    result.passport_expiration = customer.passport_expiration;
+    result.passport_country = customer.passport_country;
+    result.date_of_birth = customer.date_of_birth;
+    return result;
+}
+/* v2
 const Customer = function createCustomer(customer) {
     this.email_address = customer.email_address;
     this.password = customer.password;
@@ -13,14 +31,16 @@ const Customer = function createCustomer(customer) {
     this.passport_expiration = customer.passport_expiration;
     this.passport_country = customer.passport_country;
     this.date_of_birth = customer.date_of_birth;
-}
+}*/
 
 const Staff = function createStaff(staff) {
-    this.username = staff.username;
-    this.password = staff.password;
-    this.airline_name = staff.airline_name;
-    this.fname = staff.fname;
-    this.lname = staff.lname;
+    let result = {}
+    result.username = staff.username;
+    result.password = staff.password;
+    result.airline_name = staff.airline_name;
+    result.fname = staff.fname;
+    result.lname = staff.lname;
+    return result
 }
 
 Customer.getCustomerInfo = (customer_email, result) => {
@@ -54,24 +74,24 @@ Customer.insertCustomer = (customer, result) => {
         customer.passport_country, customer.date_of_birth], (err,res) => {
             if (err) {
                 console.log("Error: ", err);
-                result(null,err);
+                //result(null,err);
                 return;
             }
             console.log("Inserted Customer: " + res);
-            result(null,res);
+            //result(null,res);
         });
 };
 
 Staff.insertStaff = (staff, result) => {
-    sql.query('INSERT INTO CUSTOMER VALUES (?, ?, ?, ?, ?)', 
+    sql.query('INSERT INTO airline_staff VALUES (?, ?, ?, ?, ?)', 
         [staff.username, staff.password, staff.airline_name, staff.fname, staff.lname], (err,res) => {
             if (err) {
                 console.log("Error: ", err);
-                result(null,err);
+                //result(null,err);
                 return;
             }
             console.log("Inserted Airline Staff: " + res);
-            result(null,res);
+            //result(null,res);
         });
 };
 

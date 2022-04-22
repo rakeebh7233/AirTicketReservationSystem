@@ -15,7 +15,7 @@ const Ticket = function createTicket(ticket) {
     this.purchase_date = ticket.purchase_date;
     this.purchase_time = ticket.purchase_time;
     this.email_address = ticket.email_address;
-}
+};
 
 //make ticket_id auto increment
 Ticket.purchaseTicket = (ticket, result) => {

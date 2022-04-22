@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cors = require('cors');
-const conn = require('./db');
+const session = require('express-session')
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));  
@@ -16,23 +16,15 @@ app.use(session({
 }));
 
 //Routers
+const registerRouter = require("./routes/Register");
+app.use("/register", registerRouter);
 const flightRouter = require("./routes/Flight");
 app.use("/flights", flightRouter); //changed from flight to flights
+const customerRouter = require("./routes/Customer"); //unsure about these
+app.use("/customer", customerRouter);
 
 app.listen(3001, () => {
     console.log("\n\nServer running on port 3001");
 });
 
-
-/*
-
-
-
-const customerRouter = require("./routes/Customer"); //unsure about these
-app.use("/customer", customerRouter);
-
-const registerStaffRouter = require("./routes/Staff"); //unsure about these 
-app.use("/staff", registerStaffRouter);
-
-*/
 
