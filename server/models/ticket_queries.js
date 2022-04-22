@@ -172,7 +172,7 @@ Ticket.pastYearSoldTravelClass = (airline_name, result) => {
     });
 };
 
-module.exports = { Ticket };
+module.exports = { Ticket }
 
 //Still have to do 7,11
 

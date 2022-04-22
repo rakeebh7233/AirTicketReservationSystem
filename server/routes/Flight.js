@@ -5,6 +5,7 @@ const { Flight } = require('../models/flight_queries');
 router.get("/allFlights", async (req,res) => {
     Flight.getAllFlights((err,data) => {
         if(err) throw err;
+        console.log(data);
         res.send(data);
     });
 });
