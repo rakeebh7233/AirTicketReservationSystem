@@ -25,7 +25,7 @@ dates for round trip). Additionally, anyone can see the status (delayed, on time
 flight based on an airline and flight number combination and arrival or departure time.
 
 
-There are two types of users for this system: Customer, and Airline Staff.
+**There are two types of users for this system: Customer, and Airline Staff.**
 ### Customer:
 Each Customer has a name, email, password, address (composite attribute consisting of 
 building_number, street, city, state), phone_number, passport_number, passport_expiration, 
