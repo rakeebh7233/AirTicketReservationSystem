@@ -9,7 +9,8 @@ function Home() {
   const [listOfFlights, setListOfFlights] = useState([]); 
 
   useEffect(() => {
-    axios.get("http://localhost:3001/flights/allFlights").then((response) => {
+    axios.get('http://localhost:3001/flights/allFlights').then((response) => {
+      console.log(response);
       setListOfFlights(response); //testing for data response
     });
   }, []); 

@@ -132,5 +132,5 @@ Flight.insertAirport = (airport_code, name, city, country, airport_type, result)
     });
 };
 
-
+module.exports = { Flight };
 

@@ -19,8 +19,8 @@ app.use(session({
 const registerRouter = require("./routes/Register");
 app.use("/register", registerRouter);
 const flightRouter = require("./routes/Flight");
-app.use("/flights", flightRouter); //changed from flight to flights
-const customerRouter = require("./routes/Customer"); //unsure about these
+app.use("/flights", flightRouter); 
+const customerRouter = require("./routes/Customer"); 
 app.use("/customer", customerRouter);
 
 app.listen(3001, () => {
