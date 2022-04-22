@@ -5,11 +5,11 @@ import { useEffect, useState} from "react";
 
 
 function Home() {
-  /*
+
   const [listOfFlights, setListOfFlights] = useState([]); 
 
   useEffect(() => {
-    axios.get("http://localhost:3001/flights").then((response) => {
+    axios.get("http://localhost:3001/flights/allFlights").then((response) => {
       setListOfFlights(response); //testing for data response
     });
   }, []); 
@@ -34,7 +34,7 @@ function Home() {
         );
       })} 
     </div> 
-  ); */
+  ); 
 }
 
 export default Home;

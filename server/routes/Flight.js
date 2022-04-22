@@ -1,12 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
+const { Flight } = require('../models/flight_queries');
 
-router.get("/", async (req,res) => {
-    res.send("Hi")
+router.get("/allFlights", async (req,res) => {
+    Flight.getAllFlights((err,data) => {
+        if(err) throw err;
+        res.send(data);
+    });
 });
 
-router.post("/", async (req,res) => {
-
+router.get("/searchFlights", async(req,res) => {
+    Flight.searchForFlight(req.params.source_city, req.params.dest_city, req.params.dep_date, (err,data) => {
+        if(err) throw err;
+        res.send(data);
+    });
 });
+
+
 
 module.exports = router;
