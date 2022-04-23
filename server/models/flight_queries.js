@@ -78,6 +78,18 @@ Flight.searchForFlight = (source_city, dest_city, dep_date, result) => {
     });
 };
 
+Flight.searchAirlineFlight = (airline_name, result) => {
+    sql.query('SELECT * FROM Flight WHERE airline_name = ? AND departure_date BETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 30 DAY)', [airline_name], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log(airline_name + " Flights: " + res);
+        result(null,res);
+    });
+};
+
 Flight.getFlightStatus = (al_name, flight_num, dep_date, arr_date, result) => {
     sql.query('SELECt airline_name, flight_number, status FROM Flight WHERE airline_name = ? AND flight_number = ? AND departure_date = ? AND arrival_date = ?', 
     [al_name, flight_num, dep_date, arr_date], (err,res) => {

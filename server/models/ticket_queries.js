@@ -34,43 +34,60 @@ Ticket.purchaseTicket = (ticket, result) => {
     });
 };
 
-Ticket.cancelTicket = (ticket_id, departure_date, departure_time, result) => {
-    if (/*check that flight is less than 24 hours away*/) {
-        sql.query('DELETE FROM Ticket WHERE ticket_id = ?', [ticket_id], (err,res) =>{
-            if (err) {
-                console.log("Error: ", err);
-                result(null,err);
-                return;
-            }
-            console.log("Canceled Ticket: " + res);
-            result(null,res);
-        });
-    } else {
-        //how can we tell user that they can't cancel this flight
-    }
+Ticket.searchFutureFlights = (email_address, result) => {
+    sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ? AND ((departure_date > (SELECT CURDATE())) OR (departure_date = (SELECT CURDATE()) and departure_time > (SELECT NOW()))))',
+    [email_address], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Customer Flights: " + res);
+        result(null,res);
+    });
 };
 
-Ticket.createReview = (email_address, ticket_id, rating, comment, result) => {
-    if (/*check that this is a ticket for a previous flight*/) {
-        sql.query('INSERT INTO Reviews VALUES (?, ?, ?, ?)', [email_address, ticket_id,
-        rating, comment], (err,res) => {
-            if (err) {
-                console.log("Error: ", err);
-                result(null,err);
-                return;
-            }
-            console.log("New Review: " + res);
-            result(null,res);
-        });
-    }
-    else {
+Ticket.searchPreviousFlights = (email_address, result) => {
+    sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ? AND ((departure_date < (SELECT CURDATE())) OR (departure_date = (SELECT CURDATE()) and arrival_time < (SELECT NOW()))))',
+    [email_address], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Previous Customer Flights: " + res);
+        result(null,res);
+    });
+};
 
-    }
+Ticket.cancelTicket = (ticket_id, result) => {
+    sql.query('DELETE FROM Ticket WHERE ticket_id = ?', [ticket_id], (err,res) =>{
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Canceled Ticket: " + res);
+        result(null,res);
+    });
+};
+
+Ticket.addReview = (email_address, ticket_id, rating, comment, result) => {
+    sql.query('INSERT INTO Reviews VALUES (?, ?, ?, ?)', [email_address, ticket_id,
+    rating, comment], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("New Review: " + res);
+        result(null,res);
+    });
 };
 
 //check this query in phpMyAdmin
 Ticket.pastYearSpent = (email_address, result) => {
-    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date >= (SELECT DATEADD(year,-1,SELECT CURDATE()))', 
+    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date  BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE()', 
     [email_address], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -83,7 +100,7 @@ Ticket.pastYearSpent = (email_address, result) => {
 };
 
 Ticket.lastSixMonthsSpent = (email_address, result) => {
-    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date >= (SELECT DATEADD(month,-6,SELECT CURDATE()))', 
+    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -6 MONTH) AND CURRENT_DATE()', 
     [email_address], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -96,7 +113,7 @@ Ticket.lastSixMonthsSpent = (email_address, result) => {
 };
 
 Ticket.rangeSpent = (email_address, dateA, dateB,result) => {
-    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date >= ? AND purchase_date <= ?', 
+    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date BETWEEN ? AND ?', 
     [email_address, dateA, dateB], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -108,8 +125,8 @@ Ticket.rangeSpent = (email_address, dateA, dateB,result) => {
     });
 };
 
-Ticket.viewFlightRatings = (result) => {
-    sql.query('SELECT flight_number, AVG(rating), email_address, rating, comment FROM Ticket NATURAL JOIN Reviews GROUP BY flight_number', (err,res) => {
+Ticket.viewFlightRatings = (airline_name, result) => {
+    sql.query('SELECT flight_number, AVG(rating), email_address, rating, comment FROM Ticket NATURAL JOIN Reviews WHERE airline_name = ? GROUP BY flight_number', [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
             result(null,err);
@@ -121,7 +138,7 @@ Ticket.viewFlightRatings = (result) => {
 };
 
 Ticket.pastYearSold = (airline_name, result) => {
-    sql.query('SELECT COUNT(*) FROM Ticket WHERE airline_name = ? AND purchase_date >= (SELECT DATEADD(year,-1,SELECT CURDATE()))', 
+    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE()', 
     [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -134,7 +151,7 @@ Ticket.pastYearSold = (airline_name, result) => {
 };
 
 Ticket.lastSixMonthsSold = (airline_name, result) => {
-    sql.query('SELECT COUNT(*) FROM Ticket WHERE airline_name = ? AND purchase_date >= (SELECT DATEADD(month,-6,SELECT CURDATE()))', 
+    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -6 MONTH) AND CURRENT_DATE()', 
     [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -147,7 +164,7 @@ Ticket.lastSixMonthsSold = (airline_name, result) => {
 };
 
 Ticket.rangeSold = (airline_name, dateA, dateB,result) => {
-    sql.query('SELECT COUNT(*) FROM Ticket WHERE airline_name = ? AND purchase_date >= ? AND purchase_date <= ?', 
+    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ?', 
     [email_address, dateA, dateB], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -160,7 +177,7 @@ Ticket.rangeSold = (airline_name, dateA, dateB,result) => {
 };
 
 Ticket.pastYearSoldTravelClass = (airline_name, result) => {
-    sql.query('SELECT travel_class, SUM(sold_price) FROM Ticket WHERE airline_name = ? AND purchase_date >= (SELECT DATEADD(year,-1,SELECT CURDATE())) GROUP BY travel_class', 
+    sql.query('SELECT travel_class, SUM(sold_price) FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE() GROUP BY travel_class', 
     [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
