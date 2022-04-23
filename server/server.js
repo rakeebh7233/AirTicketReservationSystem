@@ -17,7 +17,9 @@ app.use(session({
 
 //Routers
 const registerRouter = require("./routes/Register");
-app.use("/register", registerRouter);
+app.use("/register", registerRouter); 
+const loginRouter = require("./routes/Login"); 
+app.use("/login", loginRouter);
 const flightRouter = require("./routes/Flight");
 app.use("/flights", flightRouter); 
 const customerRouter = require("./routes/Customer"); 

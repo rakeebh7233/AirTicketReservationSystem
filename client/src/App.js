@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom"
 import Home from './pages/Home';
 import RegisterCustomer from './pages/RegisterCustomer';
 import RegisterStaff from './pages/RegisterStaff';
+import LoginCustomer from './pages/LoginCustomer';
+import LoginStaff from './pages/LoginStaff';
 
 function App() {
 
@@ -48,6 +50,8 @@ function App() {
         </nav>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login/customer" element={<LoginCustomer />} />
+          <Route path="/login/staff" element={<LoginStaff />} />
           <Route path="/register/customer" element={<RegisterCustomer />} />
           <Route path="/register/staff" element={<RegisterStaff />} />
         </Routes>

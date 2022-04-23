@@ -1,14 +1,15 @@
 import '../styles/Home.css';
 import React from "react";
 import axios from "axios"; 
-import { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from 'yup';
+import { useEffect, useState } from "react"; 
+import { useParams } from "react-router-dom";
 
 
 function Home() {
 
   const [listOfFlights, setListOfFlights] = useState([]);
+  let { source_city, dest_city, dep_date } = useParams();
+  let { al_name, flight_num, arr_date } = useParams();
 
   useEffect(() => {
     axios.get("http://localhost:3001/flights/allFlights").then((response) => {
@@ -16,60 +17,86 @@ function Home() {
     });
   }, []);
 
-  const initialValues = {
-    departure_airport_code: null,
-    arrival_airport_code: null,
-    departure_date: null,
+  const searchFlight = () => {
+    console.log("Seach was clicked");
+    axios.get(`http://localhost:3001/flights/searchFlights/${source_city}/${dest_city}/${dep_date}`).then((response) => {
+      console.log(response.data);
+      setListOfFlights(response.data);
+      console.log(listOfFlights);
+    });
   };
 
-  const onSubmit = (data) => {
-      axios.get("http://localhost:3001/flights/searchFlights").then((response) => {
-        setListOfFlights(response.data);
-      });
-  };
-
-  const validationSchema = Yup.object().shape({
-      departure_airport_code: Yup.string().max(20).required("Required"),
-      arrival_airport_code: Yup.string().max(20).required("Required"),
-      departure_date: Yup.string("Must be in the form YYYY-MM-DD").max(20).required("Required"),
-  });
+  const searchStatus = () => {
+    console.log("Status was clicked");
+    axios.get(`http://localhost:3001/flights/getStatus/${al_name}/${flight_num}/${dep_date}/${arr_date}`).then((response) => {
+      console.log(response.data);
+      setListOfFlights(response.data);
+      console.log(listOfFlights);
+    });
+};
 
   return (
-    <div className="App"> 
-      <div className="searchForFlightPage">
-        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-          <Form className="formSearchFlight">
-            <div>
-              <h3>Search For Your Desired Flight</h3>
-              <label>Departure Airport Code:</label>
-              <ErrorMessage name="departure_airport_code" component="span"/>
-              <Field 
-              autocomplete="off"
-              id="inputSearchFlight" 
-              name="departure_airport_code" 
-              placeholder="PVG"
-              />
-              <label>Arrival Airport Code:</label>
-              <ErrorMessage name="arrival_airport_code" component="span"/>
-              <Field 
-              autocomplete="off"
-              id="inputSearchFlight" 
-              name="arrival_airport_code" 
-              placeholder="JFK"
-              />
-              <label>Departure Date:</label>
-              <ErrorMessage name="departure_date" component="span"/>
-              <Field 
-              autocomplete="off"
-              id="inputSearchFlight" 
-              name="departure_date" 
-              placeholder="YYYY-MM-DD"
-              />
-            </div>
-            <button type="submit">SEARCH</button>
-          </Form>
-        </Formik>
+    <div className="App">
+
+      <div className="searchFlightContainer">
+        <h3>Search For Your Desired Flight</h3>
+        <label>Departure Airport Code:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            source_city = event.target.value;
+          }}
+        />
+        <label>Arrival Airport Code:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            dest_city = event.target.value;
+          }}
+        />
+        <label>Departure Date:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            dep_date = event.target.value;
+          }}
+        />
+        <button onClick={searchFlight}> SEARCH </button>
       </div>
+
+      <div className="getStatusContainer">
+        <h3>Get Your Flight's Status</h3>
+        <label>Airline Name:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            al_name = event.target.value;
+          }}
+        />
+        <label>Flight Number:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            flight_num = event.target.value;
+          }}
+        />
+        <label>Departure Date:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            dep_date = event.target.value;
+          }}
+        />
+        <label>Arrival Date Date:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            arr_date = event.target.value;
+          }}
+        />
+        <button onClick={searchStatus}> GET STATUS </button>
+      </div>
+
       {listOfFlights.map((value,key) => {
         return ( 
           <div className="flight"> 
@@ -86,7 +113,7 @@ function Home() {
             <div classname = "status"> {value.status} </div>
           </div>
         );
-      })} 
+      })}
     </div> 
   ); 
 }
