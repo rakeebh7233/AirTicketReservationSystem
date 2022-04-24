@@ -16,6 +16,7 @@ router.post("/customer", async (req, res) => {
                 if (!match) {
                     console.log("did not match");
                     res.json({ error: "Wrong Username And Password Combination" });
+                    return;
                 }
                 console.log("Matched!");
                 res.json("YOU LOGGED IN!!!");
