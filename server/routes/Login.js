@@ -3,23 +3,46 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/user_queries");
 
-router.post("/customer", async(req,res) => {
-    const { email_address, password } = req.body; 
-    const user = User.Customer.getCustomerInfo(email_address);
-    if (!user) res.json({error: "User doesn't exist"});
-    bcrypt.compare(password, user.password).then((match) => {
-        if (!match) res.json({error: "Wrong username/password"});
-        res.json("Logged In."); 
+router.post("/customer", async (req, res) => {
+    const { email_address, password } = req.body;
+    User.Customer.getCustomerInfo(email_address, (err,data) => {
+        if (err) throw err;
+        if (data.length == 0) res.json("User does not exist");
+        else {
+            console.log(data);
+            console.log(data[0].password);
+            bcrypt.compare(password, data[0].password).then((match) => {
+                console.log("Checking password");
+                if (!match) {
+                    console.log("did not match");
+                    res.json({ error: "Wrong Username And Password Combination" });
+                }
+                console.log("Matched!");
+                res.json("YOU LOGGED IN!!!");
+            });
+        }
     });
 });
 
 router.post("/staff", async(req,res) => {
-    const { username, password } = req.body; 
-    const user = User.Staff.getStaffInfo(username);
-    if (!user) res.json({error: "User doesn't exist"});
-    bcrypt.compare(password, user.password).then((match) => {
-        if (!match) res.json({error: "Wrong username/password"});
-        res.json("Logged In."); 
+    const { username, password } = req.body;
+    User.Staff.getStaffInfo(username, (err,data) => {
+        if (err) throw err;
+        if (data.length == 0) res.json("User does not exist");
+        else {
+            console.log(data);
+            console.log(data[0].password);
+            bcrypt.compare(password, data[0].password).then((match) => {
+                console.log("Checking password");
+                if (!match) {
+                    console.log("did not match");
+                    res.json({ error: "Wrong Username And Password Combination" });
+                    return;
+                }
+                console.log("Matched!");
+                res.json("YOU LOGGED IN!!!");
+            });
+        }
     });
 });
 
