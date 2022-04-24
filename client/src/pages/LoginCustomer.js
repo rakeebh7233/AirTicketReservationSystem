@@ -9,7 +9,10 @@ function LoginCustomer() {
   const login = () => {
     const data = { email_address: email_address, password: password };
     axios.post("http://localhost:3001/login/customer", data).then((response) => {
-      console.log(response.data);
+      if (response.data.error) alert(response.data.error);
+      else {
+        sessionStorage.setItem("accessToken", response.data);
+      }
     });
   };
   return (
