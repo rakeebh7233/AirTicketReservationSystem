@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../helpers/AuthContext"
+
 
 function LoginCustomer() {
 
   const [email_address, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setAuthState} = useContext(AuthContext);
+
+  const history = useNavigate();
 
   const login = () => {
     const data = { email_address: email_address, password: password };
     axios.post("http://localhost:3001/login/customer", data).then((response) => {
       if (response.data.error) alert(response.data.error);
       else {
-        sessionStorage.setItem("accessToken", response.data);
+        localStorage.setItem("accessToken", response.data);
+        setAuthState(true);
+        history('/');
       }
     });
   };

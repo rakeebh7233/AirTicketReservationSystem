@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/user_queries");
 const {sign} = require("jsonwebtoken");
+const {validateToken} = require('../middleware/auth')
 
 router.post("/customer", async (req, res) => {
     const { email_address, password } = req.body;
@@ -20,7 +21,7 @@ router.post("/customer", async (req, res) => {
                     return;
                 }
                 console.log("Matched!");
-                const accessToken = sign({username: data[0].username}, "secret");
+                const accessToken = sign({email_address: data[0].email_address}, "secret");
                 res.json(accessToken);
             });
         }
@@ -43,10 +44,15 @@ router.post("/staff", async(req,res) => {
                     return;
                 }
                 console.log("Matched!");
-                res.json("YOU LOGGED IN!!!");
+                const accessToken = sign({username: data[0].username}, "secret");
+                res.json(accessToken);
             });
         }
     });
+});
+
+router.get('/auth', validateToken, (req,res) => {
+    res.json(req.user);
 });
 
 module.exports = router;

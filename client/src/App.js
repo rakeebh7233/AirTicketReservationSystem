@@ -5,57 +5,82 @@ import RegisterCustomer from './pages/RegisterCustomer';
 import RegisterStaff from './pages/RegisterStaff';
 import LoginCustomer from './pages/LoginCustomer';
 import LoginStaff from './pages/LoginStaff';
+import {AuthContext} from "./helpers/AuthContext";
+import { useState, useEffect } from "react"
+import axios from 'axios';
 
 function App() {
+  const [authState, setAuthState] = useState(false);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/login/auth", {
+      headers: {
+        accessToken: localStorage.getItem('accessToken'),
+      }
+    })
+    .then((response) => {
+      if (response.data.error) {
+        setAuthState(false)
+      } else {
+        setAuthState(true)
+      }
+    });
+  }, []);
 
   return (
     <div className="App">
-      <Router>
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="/">Logo</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse " id="collapsibleNavbar">
-              <ul class="navbar-nav">
-                <li class="nav-item ">
-                  <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
-                </li>
-              </ul>
-              <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown ">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Login</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/login/customer">Customer</a></li>
-                    <li><a class="dropdown-item" href="/login/staff">Staff</a></li>
-                  </ul>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Register</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/register/customer">Customer</a></li>
-                    <li><a class="dropdown-item" href="/register/staff">Staff</a></li>
-                  </ul>
-                </li>
-              </ul>
+      <AuthContext.Provider value={{authState, setAuthState}}>
+        <Router>
+          <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/">Logo</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse " id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                </ul>
+                {!authState &&  (
+                  <>
+                    <ul class="navbar-nav ms-auto">
+                      <li class="nav-item dropdown ">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Login</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/login/customer">Customer</a></li>
+                          <li><a class="dropdown-item" href="/login/staff">Staff</a></li>
+                        </ul>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Register</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/register/customer">Customer</a></li>
+                          <li><a class="dropdown-item" href="/register/staff">Staff</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login/customer" element={<LoginCustomer />} />
-          <Route path="/login/staff" element={<LoginStaff />} />
-          <Route path="/register/customer" element={<RegisterCustomer />} />
-          <Route path="/register/staff" element={<RegisterStaff />} />
-        </Routes>
-      </Router>
+          </nav>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login/customer" element={<LoginCustomer />} />
+            <Route path="/login/staff" element={<LoginStaff />} />
+            <Route path="/register/customer" element={<RegisterCustomer />} />
+            <Route path="/register/staff" element={<RegisterStaff />} />
+          </Routes>
+        </Router>
+      </AuthContext.Provider>
     </div>
   )
 
