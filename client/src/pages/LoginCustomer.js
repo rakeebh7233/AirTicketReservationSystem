@@ -19,7 +19,7 @@ function LoginCustomer() {
       else {
         localStorage.setItem("accessToken", response.data);
         setAuthState(true);
-        history('/');
+        history('/customer/home');
       }
     });
   };

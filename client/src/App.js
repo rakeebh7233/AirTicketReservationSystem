@@ -5,12 +5,16 @@ import RegisterCustomer from './pages/RegisterCustomer';
 import RegisterStaff from './pages/RegisterStaff';
 import LoginCustomer from './pages/LoginCustomer';
 import LoginStaff from './pages/LoginStaff';
+import CustomerHome from './pages/CustomerHome'
 import {AuthContext} from "./helpers/AuthContext";
 import { useState, useEffect } from "react"
+//import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 function App() {
   const [authState, setAuthState] = useState(false);
+  
+  //const history = useNavigate();
 
   useEffect(() => {
     axios.get("http://localhost:3001/login/auth", {
@@ -26,6 +30,12 @@ function App() {
       }
     });
   }, []);
+
+  const logout = () => {
+    localStorage.removeItem("accessToken");
+    setAuthState(false);
+    //history('/');
+  };
 
   return (
     <div className="App">
@@ -49,7 +59,7 @@ function App() {
                     <a class="nav-link" href="#">Link</a>
                   </li>
                 </ul>
-                {!authState &&  (
+                {!authState ?  (
                   <>
                     <ul class="navbar-nav ms-auto">
                       <li class="nav-item dropdown ">
@@ -68,6 +78,8 @@ function App() {
                       </li>
                     </ul>
                   </>
+                ) : (
+                  <button onClick={logout}>Logout</button>
                 )}
               </div>
             </div>
@@ -78,6 +90,7 @@ function App() {
             <Route path="/login/staff" element={<LoginStaff />} />
             <Route path="/register/customer" element={<RegisterCustomer />} />
             <Route path="/register/staff" element={<RegisterStaff />} />
+            <Route path="/customer/home" element={<CustomerHome />} />
           </Routes>
         </Router>
       </AuthContext.Provider>
@@ -95,17 +108,13 @@ export default App;
 
 
 /*
-
 function App() {
-
   const [listOfFlights, setListOfFlights] = useState([]); 
-
   useEffect(() => {
     axios.get("http://localhost:3001/flights").then((response) => {
       setListOfFlights(response.data); //testing for data response
     });
   }, []); 
-
   return (
     <div className="App"> 
       {listOfFlights.map((value,key) => {
@@ -128,9 +137,7 @@ function App() {
     </div> 
   );
 }
-
 export default App;
-
 */
 
 

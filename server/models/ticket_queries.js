@@ -47,6 +47,19 @@ Ticket.searchFutureFlights = (email_address, result) => {
     });
 };
 
+Ticket.searchCustomerFlights = (email_address, source_city, dest_city, dateA, dateB, result) => {
+    sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ?) AND departure_airport_code = ? AND arrival_airport_code = ? AND (departure_date BETWEEN ? AND ?)', 
+    [email_address, source_city, dest_city, dateA, dateB], (err,res) => {
+        if (err) {
+            console.log("Error: This is where the error is!", err);
+            result(null,err);
+            return;
+        }
+        console.log("Searched Customer Flights: " + res);
+        result(null,res);
+    });
+};
+
 Ticket.searchPreviousFlights = (email_address, result) => {
     sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ? AND ((departure_date < (SELECT CURDATE())) OR (departure_date = (SELECT CURDATE()) and arrival_time < (SELECT NOW()))))',
     [email_address], (err,res) => {
@@ -165,7 +178,7 @@ Ticket.lastSixMonthsSold = (airline_name, result) => {
 
 Ticket.rangeSold = (airline_name, dateA, dateB,result) => {
     sql.query('SELECT SUM(sold_price) FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ?', 
-    [email_address, dateA, dateB], (err,res) => {
+    [airline_name, dateA, dateB], (err,res) => {
         if (err) {
             console.log("Error: ", err);
             result(null,err);

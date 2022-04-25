@@ -91,7 +91,7 @@ Flight.searchAirlineFlight = (airline_name, result) => {
 };
 
 Flight.getFlightStatus = (al_name, flight_num, dep_date, arr_date, result) => {
-    sql.query('SELECt airline_name, flight_number, status FROM Flight WHERE airline_name = ? AND flight_number = ? AND departure_date = ? AND arrival_date = ?', 
+    sql.query('SELECT airline_name, flight_number, status FROM Flight WHERE airline_name = ? AND flight_number = ? AND departure_date = ? AND arrival_date = ?', 
     [al_name, flight_num, dep_date, arr_date], (err,res) => {
         if (err) {
             console.log("Error: ", err);

@@ -34,16 +34,16 @@ router.post("/staff", async(req,res) => {
         if (err) throw err;
         if (data.length == 0) res.json({error: "User does not exist"});
         else {
-            console.log(data);
-            console.log(data[0].password);
+            //console.log(data);
+            //console.log(data[0].password);
             bcrypt.compare(password, data[0].password).then((match) => {
-                console.log("Checking password");
+                //console.log("Checking password");
                 if (!match) {
-                    console.log("did not match");
+                    //console.log("did not match");
                     res.json({ error: "Wrong Username And Password Combination" });
                     return;
                 }
-                console.log("Matched!");
+                //console.log("Matched!");
                 const accessToken = sign({username: data[0].username}, "secret");
                 res.json(accessToken);
             });

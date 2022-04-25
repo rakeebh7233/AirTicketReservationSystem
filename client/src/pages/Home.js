@@ -18,7 +18,7 @@ function Home() {
   }, []);
 
   const searchFlight = () => {
-    console.log("Seach was clicked");
+    console.log("Search was clicked");
     axios.get(`http://localhost:3001/flights/searchFlights/${source_city}/${dest_city}/${dep_date}`).then((response) => {
       console.log(response.data);
       setListOfFlights(response.data);

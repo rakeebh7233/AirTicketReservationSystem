@@ -5,7 +5,7 @@ const { Flight } = require('../models/flight_queries');
 router.get("/allFlights", async (req,res) => {
     Flight.getAllFlights((err,data) => {
         if(err) throw err;
-        console.log(data);
+        //console.log(data);
         res.send(data);
     });
 });
@@ -16,6 +16,7 @@ router.get("/searchFlights/:source_city/:dest_city/:dep_date", async(req,res) =>
         res.send(data);
     });
 });
+
 
 router.get("/getStatus/:al_name/:flight_num/:dep_date/:arr_date", async(req,res) => {
     Flight.getFlightStatus(req.params.al_name, req.params.flight_num, req.params.dep_date, req.params.dep_date, (err,data) => {
