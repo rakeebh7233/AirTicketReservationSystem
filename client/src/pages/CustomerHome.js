@@ -25,12 +25,18 @@ function CustomerHome() {
     }, []);
 
     const searchFlight = () => {
-      console.log("Customer Flight Search was clicked");
-      axios.get(`http://localhost:3001/customer/viewSearchedFlights/${source_city}/${dest_city}/${dateA}/${dateB}`).then((response) => {
-        console.log("Got here");
-        console.log(response.data);
-        setListOfFlights(response.data);
-        console.log(listOfFlights);
+      axios.get(`http://localhost:3001/customer/viewSearchedFlights/${source_city}/${dest_city}/${dateA}/${dateB}`,
+        {
+          headers: {
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        }
+      ).then((response) => {
+        if (response.data.error) {
+          console.log(response.data.error);
+        } else {
+          setListOfFlights(response.data);
+        }
       });
     };    
 

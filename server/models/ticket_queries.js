@@ -17,13 +17,10 @@ const Ticket = function createTicket(ticket) {
     this.email_address = ticket.email_address;
 };
 
-//make ticket_id auto increment
-Ticket.purchaseTicket = (ticket, result) => {
-    sql.query('INSERT INTO Ticket VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
-    [ticket.ticket_id, ticket.airline_name, ticket.flight_number, ticket.departure_date,
-    ticket.departure_time, ticket.travel_class, ticket.sold_price, ticket.card_type,
-    ticket.card_number, ticket.card_expiration, ticket.name_on_card, ticket.purchase_date,
-    ticket.purchase_time, ticket.email_address], (err,res) => {
+Ticket.purchaseTicket = (ticket_id, airline_name, flight_number, departure_date, departure_time, travel_class, sold_price, card_type, card_number, card_expiration, name_on_card, email_address, result) => {
+    sql.query('INSERT INTO Ticket VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT CURDATE()), (SELECT CURTIME()), ?)', 
+    [ticket_id, airline_name, flight_number, departure_date, departure_time, travel_class, sold_price, card_type, card_number, card_expiration, name_on_card,
+    email_address], (err,res) => {
         if (err) {
             console.log("Error: ", err);
             result(null,err);
@@ -51,11 +48,23 @@ Ticket.searchCustomerFlights = (email_address, source_city, dest_city, dateA, da
     sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ?) AND departure_airport_code = ? AND arrival_airport_code = ? AND (departure_date BETWEEN ? AND ?)', 
     [email_address, source_city, dest_city, dateA, dateB], (err,res) => {
         if (err) {
-            console.log("Error: This is where the error is!", err);
+            
             result(null,err);
             return;
         }
         console.log("Searched Customer Flights: " + res);
+        result(null,res);
+    });
+};
+
+Ticket.getFlightCapacity = (flight_number, result) => {
+    console.log("Capacity function called");
+    sql.query('SELECT COUNT(*)/num_seats as Capacity FROM Flight NATURAL JOIN Airplane WHERE flight_number = ?', [flight_number], (err,res) => {
+        if (err) {
+            result(null,err);
+            return;
+        }
+        console.log("Percentage Seats Bought: " + res);
         result(null,res);
     });
 };

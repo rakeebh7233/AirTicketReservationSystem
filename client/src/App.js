@@ -5,7 +5,8 @@ import RegisterCustomer from './pages/RegisterCustomer';
 import RegisterStaff from './pages/RegisterStaff';
 import LoginCustomer from './pages/LoginCustomer';
 import LoginStaff from './pages/LoginStaff';
-import CustomerHome from './pages/CustomerHome'
+import CustomerHome from './pages/CustomerHome';
+import CustomerSearch from './pages/CustomerSearch';
 import {AuthContext} from "./helpers/AuthContext";
 import { useState, useEffect } from "react"
 //import { useNavigate } from "react-router-dom";
@@ -91,6 +92,7 @@ function App() {
             <Route path="/register/customer" element={<RegisterCustomer />} />
             <Route path="/register/staff" element={<RegisterStaff />} />
             <Route path="/customer/home" element={<CustomerHome />} />
+            <Route path="/customer/search" element={<CustomerSearch />} />
           </Routes>
         </Router>
       </AuthContext.Provider>

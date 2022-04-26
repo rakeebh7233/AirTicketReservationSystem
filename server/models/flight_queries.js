@@ -78,6 +78,19 @@ Flight.searchForFlight = (source_city, dest_city, dep_date, result) => {
     });
 };
 
+Flight.searchFutureFlight = (source_city, dest_city, dep_date, result) => {
+    sql.query('SELECT * FROM Flight WHERE departure_airport_code = ? AND arrival_airport_code = ? AND departure_date > ?', 
+    [source_city, dest_city, dep_date], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Flights: " + res);
+        result(null,res);
+    });
+};
+
 Flight.searchAirlineFlight = (airline_name, result) => {
     sql.query('SELECT * FROM Flight WHERE airline_name = ? AND departure_date BETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 30 DAY)', [airline_name], (err,res) => {
         if (err) {
