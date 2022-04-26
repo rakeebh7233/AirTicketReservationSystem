@@ -70,7 +70,7 @@ Ticket.getFlightCapacity = (flight_number, result) => {
 };
 
 Ticket.searchPreviousFlights = (email_address, result) => {
-    sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ? AND ((departure_date < (SELECT CURDATE())) OR (departure_date = (SELECT CURDATE()) and arrival_time < (SELECT NOW()))))',
+    sql.query('SELECT ticket_id, flight_number, departure_date, departure_time, travel_class, sold_price FROM Ticket WHERE email_address = ? AND ((departure_date < (SELECT CURDATE())) OR (departure_date = (SELECT CURDATE()) and departure_time > (SELECT NOW())))',
     [email_address], (err,res) => {
         if (err) {
             console.log("Error: ", err);

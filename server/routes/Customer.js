@@ -31,11 +31,6 @@ router.get('/viewMyPreviousFlights', validateToken, async (req,res) => {
 });
 
 router.post('/purchaseTicket/:airline_name/:flight_number/:departure_date/:departure_time/:base_price', validateToken, async (req,res) => {
-    /*
-    console.log(req.body);
-    const purchasedTicket = Ticket.Ticket(req.body);
-    Ticket.purchaseTicket(purchasedTicket);
-    */
    console.log(req.body);
    const ticket_id = (Math.floor(100000 + Math.random() * 900000)).toString(); //generates random 6 digit number
    const email_address = req.user.email_address;
@@ -49,9 +44,6 @@ router.post('/purchaseTicket/:airline_name/:flight_number/:departure_date/:depar
    if (req.body.travel_class == "business") sold_price += 500;
    if (req.body.travel_class == "first") sold_price += 1000;
    console.log("Final Sold Price: " + sold_price);
-   console.log(req.params.departure_date.substr(0,10));
-   console.log(ticket_id + " " + req.params.airline_name + " " + req.params.flight_number + " " + req.params.departure_date.substr(0,10) + " " + req.params.departure_time + " " + req.body.travel_class + " " + sold_price + " " +
-   req.body.card_type + " " + req.body.card_number + " " + req.body.card_expiration + " " + req.body.name_on_card + " " + email_address);
    Ticket.purchaseTicket(ticket_id, req.params.airline_name,req.params.flight_number,req.params.departure_date.substr(0,10),req.params.departure_time,req.body.travel_class, sold_price,
                 req.body.card_type, req.body.card_number, req.body.card_expiration, req.body.name_on_card, email_address, (err,data) => {
         if (err) throw error;
@@ -66,9 +58,10 @@ router.post('/cancelTrip/:ticket_id', validateToken, async(req,res) => {
     });
 });
 
-router.post('/addReview/:ticket_id/:rating/:comment', validateToken, async (req,res) => {
+router.post('/addReview', validateToken, async (req,res) => {
+    console.log("got here");
     const email_address = req.user.email_address;
-    Ticket.addReview(email_address, req.params.ticket_id, req.params.rating, req.params.comment, (err,data) => {
+    Ticket.addReview(email_address, req.body.ticket_id, req.body.rating, req.body.comment, (err,data) => {
         if (err) throw err;
         res.json("Thank you for your Feedback!");
     });
