@@ -75,4 +75,8 @@ router.get("/revenueClass/:airline_name", validateToken, async(req,res) => {
 
 //Still to complete: 1, 7, 8, 11, 12
 
+router.get('/auth', validateToken, (req,res) => {
+    res.json(req.user);
+});
+
 module.exports = router;

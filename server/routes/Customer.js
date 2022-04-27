@@ -29,6 +29,10 @@ router.get('/viewMyPreviousFlights', validateToken, async (req,res) => {
 });
 
 router.post('/purchaseTicket/:airline_name/:flight_number/:departure_date/:departure_time/:base_price', validateToken, async (req,res) => {
+<<<<<<< HEAD
+=======
+   console.log(req.body);
+>>>>>>> a5786060c1373747b28598e6ea7de283c30f83df
    const ticket_id = (Math.floor(100000 + Math.random() * 900000)).toString(); //generates random 6 digit number
    const email_address = req.user.email_address;
    let sold_price = parseInt(req.params.base_price);
@@ -39,6 +43,10 @@ router.post('/purchaseTicket/:airline_name/:flight_number/:departure_date/:depar
    });
    if (req.body.travel_class == "business") sold_price += 500;
    if (req.body.travel_class == "first") sold_price += 1000;
+<<<<<<< HEAD
+=======
+   console.log("Final Sold Price: " + sold_price);
+>>>>>>> a5786060c1373747b28598e6ea7de283c30f83df
    Ticket.purchaseTicket(ticket_id, req.params.airline_name,req.params.flight_number,req.params.departure_date.substr(0,10),req.params.departure_time,req.body.travel_class, sold_price,
                 req.body.card_type, req.body.card_number, req.body.card_expiration, req.body.name_on_card, email_address, (err,data) => {
         if (err) throw error;
@@ -46,16 +54,17 @@ router.post('/purchaseTicket/:airline_name/:flight_number/:departure_date/:depar
     });
 });
 
-router.post('/cancelTrip/:ticket_id', validateToken, async(req,res) => {
-    Ticket.cancelTicket(req.params.ticket_id, (err,data) => {
+router.post('/cancelTrip', validateToken, async(req,res) => {
+    console.log(req.body.ticket_id);
+    Ticket.cancelTicket(req.body.ticket_id, (err,data) => {
         if (err) throw err;
         res.json("Your flight has been canceled");
     });
 });
 
-router.post('/addReview/:ticket_id/:rating/:comment', validateToken, async (req,res) => {
+router.post('/addReview', validateToken, async (req,res) => {
     const email_address = req.user.email_address;
-    Ticket.addReview(email_address, req.params.ticket_id, req.params.rating, req.params.comment, (err,data) => {
+    Ticket.addReview(email_address, req.body.ticket_id, req.body.rating, req.body.comment, (err,data) => {
         if (err) throw err;
         res.json("Thank you for your Feedback!");
     });
@@ -71,12 +80,22 @@ router.get('/spendingLastSixMonths', validateToken, async (req,res) => {
 
 router.get('/spendingLastYear', validateToken, async (req,res) => {
     const email_address = req.user.email_address;
-    Ticket.pastYearSpent(req.params.email_address, (err,data) => {
+    Ticket.pastYearSpent(email_address, (err,data) => {
         if (err) throw err;
         res.send(data);
     });
 });
 
-//Still to Complete: 1, 7
+router.get('/spendingDateRange/:dateA/:dateB', validateToken, async (req,res) => {
+    const email_address = req.user.email_address;
+    Ticket.rangeSpent(email_address, req.params.dateA, req.params.dateB, (err,data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+
+router.get('/auth', validateToken, (req,res) => {
+    res.json(req.user);
+});
 
 module.exports = router;

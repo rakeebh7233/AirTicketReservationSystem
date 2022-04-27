@@ -8,6 +8,8 @@ import LoginStaff from './pages/LoginStaff';
 import CustomerHome from './pages/CustomerHome';
 import CustomerSearch from './pages/CustomerSearch';
 import StaffHome from './pages/StaffHome';
+import CustomerReview from './pages/CustomerReview';
+import CustomerSpending from './pages/CustomerSpending';
 import {AuthContext} from "./helpers/AuthContext";
 import { useState, useEffect } from "react"
 //import { useNavigate } from "react-router-dom";
@@ -15,10 +17,12 @@ import axios from 'axios';
 
 function App() {
   const [authState, setAuthState] = useState(false);
+  const [customerState, setCustomerState] = useState(false);
   
   //const history = useNavigate();
 
   useEffect(() => {
+
     axios.get("http://localhost:3001/login/auth", {
       headers: {
         accessToken: localStorage.getItem('accessToken'),
@@ -31,11 +35,26 @@ function App() {
         setAuthState(true)
       }
     });
+
+    axios.get("http://localhost:3001/customer/auth", {
+      headers: {
+        accessToken: localStorage.getItem('accessToken'),
+      }
+    })
+    .then((response) => {
+      if (response.data.error) {
+        setCustomerState(false)
+      } else {
+        setCustomerState(true)
+      }
+    });
+
   }, []);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
     setAuthState(false);
+    setCustomerState(false);
     //history('/');
   };
 
@@ -54,12 +73,22 @@ function App() {
                   <li class="nav-item ">
                     <a class="nav-link" href="/">Home</a>
                   </li>
+                  {customerState && (
+                  <div>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="/customer/home">View My Flights</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="/customer/search">Purchase Flights</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customer/review">Review Flights</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customer/spending">Spending History</a>
+                  </li>
+                  </div>
+                  )}
                 </ul>
                 {!authState ?  (
                   <>
@@ -95,6 +124,8 @@ function App() {
             <Route path="/customer/home" element={<CustomerHome />} />
             <Route path="/customer/search" element={<CustomerSearch />} />
             <Route path="/staff/home" element={<StaffHome />} />
+            <Route path="/customer/review" element={<CustomerReview />} />
+            <Route path="/customer/spending" element={<CustomerSpending />} />
           </Routes>
         </Router>
       </AuthContext.Provider>
