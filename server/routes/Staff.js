@@ -17,10 +17,7 @@ router.get("/viewAirlineFlights", validateToken, async (req,res) => {
 //have to add additional search routes/queries
 
 router.post("/createFlight", validateToken, async(req,res) => {
-    console.log("here")
-    console.log(req.body);
     const newFlight = Flight(req.body);
-    console.log(newFlight)
     Flight.insertFlight(newFlight);
 });
 
