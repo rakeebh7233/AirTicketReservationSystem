@@ -8,30 +8,58 @@ import * as Yup from 'yup';
 function CustomerSearch() {
 
     const [listOfFlights, setListOfFlights] = useState([]);
+    const [returnFlights, setReturnFlights] = useState([]);
     const [purchaseState, setPurchaseState] = useState(false);
     const [airline_name, setAl] = useState("");
     const [flight_num, setFn] = useState("");
     const [departure_date, setDd] = useState("");
     const [departure_time, setDt] = useState("");
     const [base_price, setBp] = useState("");
-    let { source_city, dest_city, dep_date } = useParams();
+    let { source_city, dest_city, dep_date, ret_date } = useParams();
     //let {flight_num, departure_date, departure_time, base_price} = useParams();
     let history = useNavigate();
 
     const searchFlight = () => {
-        axios.get(`http://localhost:3001/flights/searchFutureFlights/${source_city}/${dest_city}/${dep_date}`,
-          {
-            headers: {
-              accessToken: localStorage.getItem("accessToken"),
-            },
-          }
-        ).then((response) => {
-          if (response.data.error) {
-            console.log(response.data.error);
-          } else {
-            setListOfFlights(response.data);
-          }
-        });
+        console.log(source_city + " " + dest_city + " " + dep_date + " " + ret_date);
+        if (source_city === "" || dest_city === "" || dep_date === "") {
+            alert("Please enter required fields. Only source return date is optional!");
+        }
+        else {
+            axios.get(`http://localhost:3001/flights/searchFutureFlights/${source_city}/${dest_city}/${dep_date}`,
+            {
+                headers: {
+                accessToken: localStorage.getItem("accessToken"),
+                },
+            }
+            ).then((response) => {
+            if (response.data.error) {
+                console.log(response.data.error);
+            } else {
+                setListOfFlights(response.data);
+            }
+            });
+            setReturnFlights([]);
+            if (ret_date !== "") {
+                console.log(ret_date);
+                axios.get(`http://localhost:3001/flights/searchReturnFlights/${dest_city}/${source_city}/${ret_date}`,
+                {
+                    headers: {
+                    accessToken: localStorage.getItem("accessToken"),
+                    },
+                }
+                ).then((response) => {
+                if (response.data.error) {
+                    console.log(response.data.error);
+                } else {
+                    setReturnFlights(response.data);
+                }
+                });
+            }
+            document.getElementById('dac').value = "";
+            document.getElementById('aac').value = "";
+            document.getElementById('dd').value = "";
+            document.getElementById('rd').value = "";
+        }
     };
 
     const initialValues = {
@@ -74,6 +102,7 @@ function CustomerSearch() {
                 <h3>Search For Your Desired Flight</h3>
                 <label>Departure Airport Code:</label>
                 <input
+                id = "dac"
                 type="text"
                 onChange={(event) => {
                     source_city = event.target.value;
@@ -81,32 +110,69 @@ function CustomerSearch() {
                 />
                 <label>Arrival Airport Code:</label>
                 <input
+                id = "aac"
                 type="text"
                 onChange={(event) => {
                     dest_city = event.target.value;
                 }}
                 />
-                <label>Departure/Return Date:</label>
+                <label>Departure Date:</label>
                 <input
+                id = "dd"
                 type="text"
                 placeholder="YYYY-MM-DD"
                 onChange={(event) => {
                     dep_date = event.target.value;
                 }}
                 />
+                <label>Return Date:</label>
+                <input
+                id = "rd"
+                type="text"
+                placeholder="YYYY-MM-DD"
+                onChange={(event) => {
+                    ret_date = event.target.value;
+                }}
+                />
                 <button onClick={searchFlight}> SEARCH </button>
             </div>
 
-            <h3>Future Flights:</h3>
+            <h3>Departing Flights:</h3>
             {listOfFlights.map((value,key) => {
             return ( 
                 <div className="flight"> 
                 <div className = "airline_name"> {value.airline_name} </div> 
                 <div className = "flight_num"> {value.flight_number} </div> 
-                <div className = "departure"> {value.departure_date} </div> 
+                <div className = "departure"> {value.departure_date.substr(0,10)} </div> 
                 <div className = "departure"> {value.departure_time} </div>
                 <div className = "departure"> {value.departure_airport_code} </div>
-                <div className = "arrival"> {value.arrival_date} </div> 
+                <div className = "arrival"> {value.arrival_date.substr(0,10)} </div> 
+                <div className = "arrival"> {value.arrival_time} </div>
+                <div className = "arrival"> {value.arrival_airport_code} </div>
+                <div className = "airplane_id"> {value.airplane_id} </div>
+                <div className = "base_price"> {value.base_price} </div>
+                <div classname = "status"> {value.status} </div>
+                <button onClick={() => {
+                    setAl(value.airline_name);
+                    setFn(value.flight_number);
+                    setDd(value.departure_date);
+                    setDt(value.departure_time);
+                    setBp(value.base_price);
+                    setPurchaseState(true);
+                }}>Purchase</button>
+                </div>
+            );
+            })}
+            <h3>Return Flights:</h3>
+            {returnFlights.map((value,key) => {
+            return ( 
+                <div className="flight"> 
+                <div className = "airline_name"> {value.airline_name} </div> 
+                <div className = "flight_num"> {value.flight_number} </div> 
+                <div className = "departure"> {value.departure_date.substr(0,10)} </div> 
+                <div className = "departure"> {value.departure_time} </div>
+                <div className = "departure"> {value.departure_airport_code} </div>
+                <div className = "arrival"> {value.arrival_date.substr(0,10)} </div> 
                 <div className = "arrival"> {value.arrival_time} </div>
                 <div className = "arrival"> {value.arrival_airport_code} </div>
                 <div className = "airplane_id"> {value.airplane_id} </div>

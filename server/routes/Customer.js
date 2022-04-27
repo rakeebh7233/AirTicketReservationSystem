@@ -91,4 +91,8 @@ router.get('/spendingDateRange/:dateA/:dateB', validateToken, async (req,res) =>
     });
 });
 
+router.get('/auth', validateToken, (req,res) => {
+    res.json(req.user);
+});
+
 module.exports = router;

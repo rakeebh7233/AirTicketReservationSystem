@@ -16,10 +16,12 @@ import axios from 'axios';
 
 function App() {
   const [authState, setAuthState] = useState(false);
+  const [customerState, setCustomerState] = useState(false);
   
   //const history = useNavigate();
 
   useEffect(() => {
+
     axios.get("http://localhost:3001/login/auth", {
       headers: {
         accessToken: localStorage.getItem('accessToken'),
@@ -32,11 +34,26 @@ function App() {
         setAuthState(true)
       }
     });
+
+    axios.get("http://localhost:3001/customer/auth", {
+      headers: {
+        accessToken: localStorage.getItem('accessToken'),
+      }
+    })
+    .then((response) => {
+      if (response.data.error) {
+        setCustomerState(false)
+      } else {
+        setCustomerState(true)
+      }
+    });
+
   }, []);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
     setAuthState(false);
+    setCustomerState(false);
     //history('/');
   };
 
@@ -55,12 +72,22 @@ function App() {
                   <li class="nav-item ">
                     <a class="nav-link" href="/">Home</a>
                   </li>
+                  {customerState && (
+                  <div>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="/customer/home">View My Flights</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="/customer/search">Purchase Flights</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customer/review">Review Flights</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/customer/spending">Spending History</a>
+                  </li>
+                  </div>
+                  )}
                 </ul>
                 {!authState ?  (
                   <>
