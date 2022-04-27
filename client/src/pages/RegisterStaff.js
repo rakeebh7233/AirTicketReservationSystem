@@ -1,14 +1,11 @@
 import React from 'react';
 import axios from "axios"; 
-//import { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import '../styles/RegisterStaff.css';
 
 
 function RegisterStaff() {
-
-   // const [listOfStaff, setListOfStaff] = useState([]);
 
     const initialValues = {
         username: null,

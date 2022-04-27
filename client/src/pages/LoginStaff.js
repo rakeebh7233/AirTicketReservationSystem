@@ -19,7 +19,7 @@ function LoginStaff() {
       } else {
         localStorage.setItem("accessToken", response.data);
         setAuthState(true);
-        history('/');
+        history('/staff/home');
       }
     });
   };

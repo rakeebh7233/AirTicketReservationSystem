@@ -9,7 +9,7 @@ function CustomerHome() {
     let { source_city, dest_city, dateA, dateB } = useParams();
 
     useEffect(() => {
-        axios.get("http://localhost:3001/customer/viewMyFlights",
+      axios.get("http://localhost:3001/customer/viewMyFlights",
         {
           headers: {
             accessToken: localStorage.getItem("accessToken"),
@@ -41,7 +41,7 @@ function CustomerHome() {
     };    
 
     return(
-        <div className="CustomerHome">
+      <div className="CustomerHome">
 
         <div className="searchFlightContainer">
           <h3>Search For A Specific Upcoming Flight</h3>
@@ -73,26 +73,25 @@ function CustomerHome() {
             }}
           />
           <button onClick={searchFlight}> SEARCH </button>
-      </div>
-
+        </div>
 
       <h3>Your Upcoming Flights:</h3>
         {listOfFlights.map((value,key) => {
-        return ( 
-            <div className="flight"> 
-            <div className = "airline_name"> {value.airline_name} </div> 
-            <div className = "flight_num"> {value.flight_number} </div> 
-            <div className = "departure"> {value.departure_date} </div> 
-            <div className = "departure"> {value.departure_time} </div>
-            <div className = "departure"> {value.departure_airport_code} </div>
-            <div className = "arrival"> {value.arrival_date} </div> 
-            <div className = "arrival"> {value.arrival_time} </div>
-            <div className = "arrival"> {value.arrival_airport_code} </div>
-            <div className = "airplane_id"> {value.airplane_id} </div>
-            <div className = "base_price"> {value.base_price} </div>
-            <div classname = "status"> {value.status} </div>
-            </div>
-        );
+          return ( 
+              <div className="flight"> 
+              <div className = "airline_name"> {value.airline_name} </div> 
+              <div className = "flight_num"> {value.flight_number} </div> 
+              <div className = "departure"> {value.departure_date} </div> 
+              <div className = "departure"> {value.departure_time} </div>
+              <div className = "departure"> {value.departure_airport_code} </div>
+              <div className = "arrival"> {value.arrival_date} </div> 
+              <div className = "arrival"> {value.arrival_time} </div>
+              <div className = "arrival"> {value.arrival_airport_code} </div>
+              <div className = "airplane_id"> {value.airplane_id} </div>
+              <div className = "base_price"> {value.base_price} </div>
+              <div classname = "status"> {value.status} </div>
+              </div>
+          );
         })}
     </div> 
     ); 

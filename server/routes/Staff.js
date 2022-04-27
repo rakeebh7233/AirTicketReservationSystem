@@ -2,20 +2,25 @@ const express = require("express");
 const router = express.Router();
 const { Flight } = require('../models/flight_queries');
 const { Ticket } = require('../models/ticket_queries');
+const User = require('../models/user_queries');
 const { validateToken } = require('../middleware/auth');
 
-router.get("/viewAirlineFlights/:airline_name", validateToken, async (req,res) => {
-    Flight.searchAirlineFlight(req.params.airline_name, (err,data) => {
-        if (err) throw err;
-        res.send(data);
+router.get("/viewAirlineFlights", validateToken, async (req,res) => {
+    User.Staff.getStaffInfo(req.user.username, (err, data) => {
+        Flight.searchAirlineFlight(data[0].airline_name, (err,data) => {
+            if (err) throw err;
+            res.send(data);
+        });
     });
 });
 
 //have to add additional search routes/queries
 
 router.post("/createFlight", validateToken, async(req,res) => {
+    console.log("here")
     console.log(req.body);
-    const newFlight = Flight.Flight(req.body);
+    const newFlight = Flight(req.body);
+    console.log(newFlight)
     Flight.insertFlight(newFlight);
 });
 

@@ -1,17 +1,19 @@
 const sql = require('../db');
 
 const Flight = function createFlight(flight) {
-    this.airline_name = flight.airline_name;
-    this.flight_number = flight.flight_number;
-    this.departure_date = flight.departure_date;
-    this.departure_time = flight.departure_time;
-    this.departure_airport_code = flight.departure_airport_code;
-    this.arrival_date = flight.arrival_date;
-    this.arrival_time = flight.arrival_time;
-    this.arrival_airport_code = flight.arrival_airport_code;
-    this.airplane_id = flight.airplane_id;
-    this.base_price = flight.base_price;
-    this.status = flight.status;
+    let result = {};
+    result.airline_name = flight.airline_name;
+    result.flight_number = flight.flight_number;
+    result.departure_date = flight.departure_date;
+    result.departure_time = flight.departure_time;
+    result.departure_airport_code = flight.departure_airport_code;
+    result.arrival_date = flight.arrival_date;
+    result.arrival_time = flight.arrival_time;
+    result.arrival_airport_code = flight.arrival_airport_code;
+    result.airplane_id = flight.airplane_id;
+    result.base_price = flight.base_price;
+    result.status = flight.status;
+    return result;
 };
 
 Flight.getAllFlights = (result) => {
@@ -27,17 +29,17 @@ Flight.getAllFlights = (result) => {
 };
 
 Flight.insertFlight = (flight, result) => {
-    sql.query('INSERT INTO Flight VALUES (?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?',
+    sql.query('INSERT INTO Flight VALUES (?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?)',
     [flight.airline_name, flight.flight_number, flight.departure_date, flight.departure_time,
     flight.departure_airport_code, flight.arrival_date, flight.arrival_time, flight.arrival_airport_code,
     flight.airplane_id, flight.base_price, flight.status], (err,res) => {
         if (err) {
             console.log("Error: ", err);
-            result(null,err);
+            //result(null,err);
             return;
         }
         console.log("Inserted Flight: " + res);
-        result(null,res);
+        //result(null,res);
     });
 };
 
@@ -128,7 +130,6 @@ Flight.updateFlightStatus = (al_name, flight_num, dep_date, dep_time, new_status
         result(null,res);
     });
 };
-
 
 
 Flight.insertAirplane = (airplane_id, airline_name, num_seats, manufacturing_company, age, result) => {

@@ -1,6 +1,5 @@
 const sql = require('../db');
 
-// v1
 const Customer = function createCustomer(customer) {
     let result = {};
     result.email_address = customer.email_address;
@@ -17,21 +16,6 @@ const Customer = function createCustomer(customer) {
     result.date_of_birth = customer.date_of_birth;
     return result;
 }
-/* v2
-const Customer = function createCustomer(customer) {
-    this.email_address = customer.email_address;
-    this.password = customer.password;
-    this.name = customer.name;
-    this.building_number = customer.building_number;
-    this.street = customer.street;
-    this.city = customer.city;
-    this.state = customer.state;
-    this.phone_number = customer.phone_number;
-    this.passport_number = customer.passport_number;
-    this.passport_expiration = customer.passport_expiration;
-    this.passport_country = customer.passport_country;
-    this.date_of_birth = customer.date_of_birth;
-}*/
 
 const Staff = function createStaff(staff) {
     let result = {}
