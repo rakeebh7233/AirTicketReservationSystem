@@ -25,10 +25,10 @@ function CustomerHome() {
           setListOfFlights(response.data);
         }
       });
-    }
+    };
 
     useEffect(() => {
-      /*
+        /*
         axios.get("http://localhost:3001/customer/viewMyFlights",
         {
           headers: {

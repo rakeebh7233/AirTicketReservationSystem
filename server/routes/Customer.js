@@ -83,6 +83,12 @@ router.get('/spendingLastYear', validateToken, async (req,res) => {
     });
 });
 
-//Still to Complete: 1, 7
+router.get('/spendingDateRange/:dateA/:dateB', validateToken, async (req,res) => {
+    const email_address = req.user.email_address;
+    Ticket.rangeSpent(email_address, req.params.dateA, req.params.dateB, (err,data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
 
 module.exports = router;

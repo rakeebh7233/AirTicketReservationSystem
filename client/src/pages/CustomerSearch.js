@@ -89,6 +89,7 @@ function CustomerSearch() {
                 <label>Departure/Return Date:</label>
                 <input
                 type="text"
+                placeholder="YYYY-MM-DD"
                 onChange={(event) => {
                     dep_date = event.target.value;
                 }}

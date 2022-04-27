@@ -112,7 +112,7 @@ Ticket.addReview = (email_address, ticket_id, rating, comment, result) => {
 
 //check this query in phpMyAdmin
 Ticket.pastYearSpent = (email_address, result) => {
-    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date  BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE()', 
+    sql.query('SELECT SUM(sold_price) as totalSpent FROM Ticket WHERE email_address = ? AND purchase_date  BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE()', 
     [email_address], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -125,7 +125,8 @@ Ticket.pastYearSpent = (email_address, result) => {
 };
 
 Ticket.lastSixMonthsSpent = (email_address, result) => {
-    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -6 MONTH) AND CURRENT_DATE()', 
+    //query written like this so it is easier to convert to table in the front end
+    sql.query('SELECT MONTH(purchase_date) as Month, YEAR(purchase_date) as Year, SUM(sold_price) as MonthlyTotal FROM Ticket WHERE email_address = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -6 MONTH) AND CURRENT_DATE() GROUP BY MONTH(purchase_date), YEAR(purchase_date)', 
     [email_address], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -138,7 +139,8 @@ Ticket.lastSixMonthsSpent = (email_address, result) => {
 };
 
 Ticket.rangeSpent = (email_address, dateA, dateB,result) => {
-    sql.query('SELECT SUM(sold_price) FROM Ticket WHERE email_address = ? AND purchase_date BETWEEN ? AND ?', 
+    //console.log(`SELECT MONTH(purchase_date) as Month, YEAR(purchase_date) as Year, SUM(sold_price) as MonthlyTotal FROM Ticket WHERE email_address = ${email_address} AND purchase_date BETWEEN ${dateA} AND ${dateB} GROUP BY MONTH(purchase_date), YEAR(purchase_date)`);
+    sql.query('SELECT MONTH(purchase_date) as Month, YEAR(purchase_date) as Year, SUM(sold_price) as MonthlyTotal FROM Ticket WHERE email_address = ? AND purchase_date BETWEEN ? AND ? GROUP BY MONTH(purchase_date), YEAR(purchase_date)', 
     [email_address, dateA, dateB], (err,res) => {
         if (err) {
             console.log("Error: ", err);
