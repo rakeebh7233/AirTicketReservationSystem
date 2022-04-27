@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react"; 
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 
@@ -16,6 +16,7 @@ function CustomerSearch() {
     const [base_price, setBp] = useState("");
     let { source_city, dest_city, dep_date } = useParams();
     //let {flight_num, departure_date, departure_time, base_price} = useParams();
+    let history = useNavigate();
 
     const searchFlight = () => {
         axios.get(`http://localhost:3001/flights/searchFutureFlights/${source_city}/${dest_city}/${dep_date}`,
@@ -52,6 +53,7 @@ function CustomerSearch() {
         ).then((response) => {
             console.log("Data will be inserted into ticket table")
             setPurchaseState(false);
+            history('/customer/home');
         });
     };
 

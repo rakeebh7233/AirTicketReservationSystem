@@ -79,7 +79,7 @@ Flight.searchForFlight = (source_city, dest_city, dep_date, result) => {
 };
 
 Flight.searchFutureFlight = (source_city, dest_city, dep_date, result) => {
-    sql.query('SELECT * FROM Flight WHERE departure_airport_code = ? AND arrival_airport_code = ? AND departure_date > ?', 
+    sql.query('SELECT * FROM Flight WHERE departure_airport_code = ? AND arrival_airport_code = ? AND departure_date > (SELECT CURDATE()) AND departure_date >= ?', 
     [source_city, dest_city, dep_date], (err,res) => {
         if (err) {
             console.log("Error: ", err);

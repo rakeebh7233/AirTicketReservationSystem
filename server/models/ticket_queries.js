@@ -32,7 +32,8 @@ Ticket.purchaseTicket = (ticket_id, airline_name, flight_number, departure_date,
 };
 
 Ticket.searchFutureFlights = (email_address, result) => {
-    sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ? AND ((departure_date > (SELECT CURDATE())) OR (departure_date = (SELECT CURDATE()) and departure_time > (SELECT NOW()))))',
+    //sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ? AND ((departure_date > (SELECT CURDATE())) OR (departure_date = (SELECT CURDATE()) and departure_time > (SELECT NOW()))))'
+    sql.query('SELECT * FROM Ticket LEFT JOIN Flight ON Ticket.flight_number = Flight.flight_number WHERE email_address = ? AND ((Ticket.departure_date > (SELECT CURDATE())) OR (Ticket.departure_date = (SELECT CURDATE()) and Ticket.departure_time > (SELECT NOW())))',
     [email_address], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -83,6 +84,8 @@ Ticket.searchPreviousFlights = (email_address, result) => {
 };
 
 Ticket.cancelTicket = (ticket_id, result) => {
+    //console.log("called cancel ticket query");
+    //console.log(`DELETE FROM Ticket WHERE ticket_id = ${ticket_id}`);
     sql.query('DELETE FROM Ticket WHERE ticket_id = ?', [ticket_id], (err,res) =>{
         if (err) {
             console.log("Error: ", err);

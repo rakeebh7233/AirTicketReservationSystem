@@ -51,15 +51,15 @@ router.post('/purchaseTicket/:airline_name/:flight_number/:departure_date/:depar
     });
 });
 
-router.post('/cancelTrip/:ticket_id', validateToken, async(req,res) => {
-    Ticket.cancelTicket(req.params.ticket_id, (err,data) => {
+router.post('/cancelTrip', validateToken, async(req,res) => {
+    console.log(req.body.ticket_id);
+    Ticket.cancelTicket(req.body.ticket_id, (err,data) => {
         if (err) throw err;
         res.json("Your flight has been canceled");
     });
 });
 
 router.post('/addReview', validateToken, async (req,res) => {
-    console.log("got here");
     const email_address = req.user.email_address;
     Ticket.addReview(email_address, req.body.ticket_id, req.body.rating, req.body.comment, (err,data) => {
         if (err) throw err;
@@ -77,7 +77,7 @@ router.get('/spendingLastSixMonths', validateToken, async (req,res) => {
 
 router.get('/spendingLastYear', validateToken, async (req,res) => {
     const email_address = req.user.email_address;
-    Ticket.pastYearSpent(req.params.email_address, (err,data) => {
+    Ticket.pastYearSpent(email_address, (err,data) => {
         if (err) throw err;
         res.send(data);
     });
