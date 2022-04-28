@@ -29,10 +29,7 @@ router.get('/viewMyPreviousFlights', validateToken, async (req,res) => {
 });
 
 router.post('/purchaseTicket/:airline_name/:flight_number/:departure_date/:departure_time/:base_price', validateToken, async (req,res) => {
-<<<<<<< HEAD
-=======
    console.log(req.body);
->>>>>>> a5786060c1373747b28598e6ea7de283c30f83df
    const ticket_id = (Math.floor(100000 + Math.random() * 900000)).toString(); //generates random 6 digit number
    const email_address = req.user.email_address;
    let sold_price = parseInt(req.params.base_price);
@@ -43,10 +40,7 @@ router.post('/purchaseTicket/:airline_name/:flight_number/:departure_date/:depar
    });
    if (req.body.travel_class == "business") sold_price += 500;
    if (req.body.travel_class == "first") sold_price += 1000;
-<<<<<<< HEAD
-=======
    console.log("Final Sold Price: " + sold_price);
->>>>>>> a5786060c1373747b28598e6ea7de283c30f83df
    Ticket.purchaseTicket(ticket_id, req.params.airline_name,req.params.flight_number,req.params.departure_date.substr(0,10),req.params.departure_time,req.body.travel_class, sold_price,
                 req.body.card_type, req.body.card_number, req.body.card_expiration, req.body.name_on_card, email_address, (err,data) => {
         if (err) throw error;

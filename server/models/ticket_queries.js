@@ -153,7 +153,7 @@ Ticket.rangeSpent = (email_address, dateA, dateB,result) => {
 };
 
 Ticket.viewFlightRatings = (airline_name, result) => {
-    sql.query('SELECT flight_number, AVG(rating), email_address, rating, comment FROM Ticket NATURAL JOIN Reviews WHERE airline_name = ? GROUP BY flight_number', [airline_name], (err,res) => {
+    sql.query('SELECT flight_number, AVG(rating) as avg_rating, email_address, rating, comment FROM Ticket NATURAL JOIN Reviews WHERE airline_name = ? GROUP BY flight_number', [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
             result(null,err);
