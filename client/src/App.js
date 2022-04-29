@@ -12,6 +12,7 @@ import CustomerSpending from './pages/CustomerSpending';
 import StaffHome from './pages/StaffHome';
 import StaffReview from './pages/StaffReview';
 import StaffAdd from './pages/StaffAdd';
+import StaffReports from './pages/StaffReports';
 import {AuthContext} from "./helpers/AuthContext";
 import { useState, useEffect } from "react"
 import axios from 'axios';
@@ -156,6 +157,7 @@ function App() {
           <Route path="/staff/home" element={<StaffHome />} />
           <Route path="/staff/review" element={<StaffReview />} />
           <Route path="/staff/add" element={<StaffAdd />} />
+          <Route path="/staff/reports" element={<StaffReports />} />
         </Routes>
       </AuthContext.Provider>
     </div>

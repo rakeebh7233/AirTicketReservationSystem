@@ -10,7 +10,7 @@ function StaffReview() {
 
     useEffect(() => {
         console.log("function called");
-        axios.get("http://localhost:3001/staff/viewRatings",
+        axios.get("http://localhost:3001/staff/ratings",
           {
             headers: {
               accessToken: localStorage.getItem("accessToken"),

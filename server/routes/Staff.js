@@ -51,34 +51,63 @@ router.post("/addAirport", validateToken, async(req,res) => {
     });
 });
 
-router.get("/ratings/:airline_name", validateToken, async(req,res) => {
-    Ticket.viewFlightRatings(req.params.airline_name, (err,data) => {
+router.get("/ratings", validateToken, async(req,res) => {
+    Ticket.viewFlightRatings(req.user.staff.airline_name, (err,data) => {
         if (err) throw err;
         res.send(data);
     });
 });
 
-router.get("/revenueLastYear/:airline_name", validateToken, async(req,res) => {
-    Ticket.pastYearSold(req.params.airline_name, (err,data) => {
+router.get("/revenue/year", validateToken, async(req,res) => {
+    Ticket.pastYearRevenue(req.user.staff.airline_name, (err,data) => {
         if (err) throw err;
         res.send(data);
     });
 });
 
-router.get("/revenueLastSixMonths/:airline_name", validateToken, async(req,res) => {
-    Ticket.lastSixMonthsSold(req.params.airline_name, (err,data) => {
+router.get("/sold/year", validateToken, async(req,res) => {
+    Ticket.pastYearSold(req.user.staff.airline_name, (err,data) => {
         if (err) throw err;
         res.send(data);
     });
 });
 
-router.get("/revenueClass/:airline_name", validateToken, async(req,res) => {
-    Ticket.pastYearSoldTravelClass(req.params.airline_name, (err,data) => {
+router.get("/revenue/month", validateToken, async(req,res) => {
+    Ticket.lastMonthRevenue(req.user.staff.airline_name, (err,data) => {
         if (err) throw err;
         res.send(data);
     });
 });
 
+router.get("/sold/month", validateToken, async(req,res) => {
+    Ticket.lastMonthSold(req.user.staff.airline_name, (err,data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+
+router.get("/sold/range/:dateA/:dateB", validateToken, async(req,res) => {
+    Ticket.rangeSold(req.user.staff.airline_name, req.params.dateA, req.params.dateB, (err,data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+
+router.get("/revenue/class", validateToken, async(req,res) => {
+    Ticket.pastYearRevenueTravelClass(req.user.staff.airline_name, (err,data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+
+router.get("/sold/class", validateToken, async(req,res) => {
+    Ticket.pastYearSoldTravelClass(req.user.staff.airline_name, (err,data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+
+/*
 router.get("/viewRatings", validateToken, async(req,res) => {
     User.Staff.getStaffInfo(req.user.username, (err, data) => {
         Ticket.viewFlightRatings(data[0].airline_name, (err,data) => {
@@ -87,6 +116,7 @@ router.get("/viewRatings", validateToken, async(req,res) => {
         });
     });
 });
+*/
 
 //Still to complete: 1, 7, 8, 11, 12
 
