@@ -83,6 +83,15 @@ router.get("/revenueClass/:airline_name", validateToken, async(req,res) => {
     });
 });
 
+router.get("/viewRatings", validateToken, async(req,res) => {
+    User.Staff.getStaffInfo(req.user.username, (err, data) => {
+        Ticket.viewFlightRatings(data[0].airline_name, (err,data) => {
+            if (err) throw err;
+            res.send(data);
+        });
+    });
+});
+
 //Still to complete: 1, 7, 8, 11, 12
 
 router.get('/auth', validateToken, (req,res) => {
