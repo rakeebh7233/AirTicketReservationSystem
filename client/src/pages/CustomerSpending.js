@@ -100,7 +100,7 @@ function CustomerSpending() {
                 {yearSpent.map((value,key) => {
                         return (
                             <tr>
-                                <td>{value.totalSpent}</td>
+                                <td>${value.totalSpent}</td>
                             </tr>
                         );
                     })}
@@ -125,7 +125,7 @@ function CustomerSpending() {
                             <tr>
                                 <td>{value.Month}</td>
                                 <td>{value.Year}</td>
-                                <td>{value.MonthlyTotal}</td>
+                                <td>${value.MonthlyTotal}</td>
                             </tr>
                         );
                     })}

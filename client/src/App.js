@@ -113,6 +113,12 @@ function App() {
                     <li class="nav-item">
                       <a class="nav-link" href="/staff/add">Add Airplanes</a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/staff/review">Flight Reviews</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/staff/reports">Sales Report</a>
+                    </li>
                   </ul>
                 )}
               </ul>

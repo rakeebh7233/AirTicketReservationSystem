@@ -191,7 +191,7 @@ Ticket.lastMonthRevenue = (airline_name, result) => {
 };
 
 Ticket.pastYearRevenueTravelClass = (airline_name, result) => {
-    sql.query('SELECT travel_class, SUM(sold_price) FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE() GROUP BY travel_class', 
+    sql.query('SELECT travel_class, SUM(sold_price) as classRev FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE() GROUP BY travel_class ORDER BY SUM(sold_price) DESC', 
     [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -204,7 +204,7 @@ Ticket.pastYearRevenueTravelClass = (airline_name, result) => {
 };
 
 Ticket.pastYearSold = (airline_name, result) => {
-    sql.query('SELECT COUNT(*) as totalSold FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE()', 
+    sql.query('SELECT COUNT(*) as totalSold, SUM(sold_price) as totalRevenue FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE()', 
     [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -217,7 +217,7 @@ Ticket.pastYearSold = (airline_name, result) => {
 };
 
 Ticket.lastMonthSold = (airline_name, result) => {
-    sql.query('SELECT COUNT(*) as totalSold FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH) AND CURRENT_DATE()', 
+    sql.query('SELECT COUNT(*) as totalSold, SUM(sold_price) as totalRevenue, MONTH(purchase_date) as month, YEAR(purchase_date) as year FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 MONTH) AND CURRENT_DATE()', 
     [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -231,7 +231,7 @@ Ticket.lastMonthSold = (airline_name, result) => {
 
 
 Ticket.rangeSold = (airline_name, dateA, dateB,result) => {
-    sql.query('SELECT COUNT(*) as totalSold, MONTH(purchase_date) as month, YEAR(purchase_date) as year FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ? GROUP BY MONTH(purchase_date), YEAR(purchase_date)', 
+    sql.query('SELECT COUNT(*) as totalSold, SUM(sold_price) as totalRevenue, MONTH(purchase_date) as month, YEAR(purchase_date) as year FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ? GROUP BY MONTH(purchase_date), YEAR(purchase_date)', 
     [airline_name, dateA, dateB], (err,res) => {
         if (err) {
             console.log("Error: ", err);

@@ -101,7 +101,7 @@ router.get("/revenue/class", validateToken, async(req,res) => {
 });
 
 router.get("/sold/class", validateToken, async(req,res) => {
-    Ticket.pastYearSoldTravelClass(req.user.staff.airline_name, (err,data) => {
+    Ticket.pastYearRevenueTravelClass(req.user.staff.airline_name, (err,data) => {
         if (err) throw err;
         res.send(data);
     });

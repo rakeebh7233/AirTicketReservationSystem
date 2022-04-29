@@ -63,7 +63,7 @@ function Home() {
         />
         <button onClick={searchFlight}> SEARCH </button>
       </div>
-
+      <br/><br/>
       <div className="getStatusContainer">
         <h3>Get Your Flight's Status</h3>
         <label>Airline Name:</label>
@@ -96,16 +96,17 @@ function Home() {
         />
         <button onClick={searchStatus}> GET STATUS </button>
       </div>
-
+      <br/><br/>
+      <h3>All Flights</h3>
       {listOfFlights.map((value,key) => {
         return ( 
           <div className="flight"> 
             <div className = "airline_name"> {value.airline_name} </div> 
             <div className = "flight_num"> {value.flight_number} </div> 
-            <div className = "departure"> {value.departure_date} </div> 
+            <div className = "departure"> {value.departure_date.substr(0,10)} </div> 
             <div className = "departure"> {value.departure_time} </div>
             <div className = "departure"> {value.departure_airport_code} </div>
-            <div className = "arrival"> {value.arrival_date} </div> 
+            <div className = "arrival"> {value.arrival_date.substr(0,10)} </div> 
             <div className = "arrival"> {value.arrival_time} </div>
             <div className = "arrival"> {value.arrival_airport_code} </div>
             <div className = "airplane_id"> {value.airplane_id} </div>

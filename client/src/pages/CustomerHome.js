@@ -126,7 +126,7 @@ function CustomerHome() {
             <div className = "departure"> {value.departure_date.substr(0,10)} </div> 
             <div className = "departure"> {value.departure_time} </div>
             <div className = "departure"> {value.departure_airport_code} </div>
-            <div className = "arrival"> {value.arrival_date} </div> 
+            <div className = "arrival"> {value.arrival_date.substr(0,10)} </div> 
             <div className = "arrival"> {value.arrival_time} </div>
             <div className = "arrival"> {value.arrival_airport_code} </div>
             <div className = "airplane_id"> {value.airplane_id} </div>
