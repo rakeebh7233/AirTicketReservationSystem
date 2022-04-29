@@ -14,16 +14,13 @@ router.get("/viewAirlineFlights", validateToken, async (req,res) => {
     });
 });
 
-//have to add additional search routes/queries
-
 router.post("/createFlight", validateToken, async(req,res) => {
     const newFlight = Flight(req.body);
     Flight.insertFlight(newFlight);
+    res.json("Flight has been added into the System");
 });
 
 router.post("/changeFlightStatus", validateToken, async(req,res) => {
-    console.log(req.body);  
-    console.log(req.user.staff.airline_name)
     Flight.updateFlightStatus(req.user.staff.airline_name,req.body.flight_num,req.body.dep_date,req.body.dep_time,
         req.body.new_status, (err,data) => {
             if (err) throw err;
@@ -31,25 +28,24 @@ router.post("/changeFlightStatus", validateToken, async(req,res) => {
         })
 });
 
-// router.post("/changeFlightStatus/:al_name/:flight_num/:dep_date/:dep_time/:new_status", validateToken, async (req,res) => {
-//     Flight.updateFlightStatus(req.params.al_name, req.params.flight_num, req.params.dep_date, req.params.dep_time, 
-//                                 req.params.new_status, (err,data) => {
-//         if (err) throw err;
-//         res.json("Flight Status has been updated");
-//     })
-// });
+router.get("/airplanesOwned", validateToken, async(req,res) => {
+    Flight.getAirplanesOwnedByAirline(req.user.staff.airline_name, (err,data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
 
-router.post("/addAirplane/:airplane_id/:airline_name/:num_seats/:manufacturing_company/:age", validateToken, async(req,res) => {
-    Flight.insertAirplane(req.params.airplane_id, req.params.airline_name, req.params.num_seats,
-                            req.params.manufacturing_company, req.params.age, (err,data) => {
+router.post("/addAirplane", validateToken, async(req,res) => {
+    Flight.insertAirplane(req.body.airplane_id, req.body.airline_name, req.body.num_seats,
+                            req.body.manufacturing_company, req.body.age, (err,data) => {
         if (err) throw err;
         res.json("Airplane has been added into the System");
     })
 });
 
-router.post("/addAirport/:airport_code/:name/:city/:country/:airport_type", validateToken, async(req,res) => {
-    Flight.insertAirport(req.params.airport_code, req.params.name, req.params.city, req.params.country, 
-                            req.params.airport_type, (err,data) => {
+router.post("/addAirport", validateToken, async(req,res) => {
+    Flight.insertAirport(req.body.airport_code, req.body.name, req.body.city, req.body.country, 
+                            req.body.airport_type, (err,data) => {
         if (err) throw err;
         res.json("Airport has been added into the System");
     });

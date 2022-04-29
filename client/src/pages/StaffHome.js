@@ -54,7 +54,6 @@ function StaffHome() {
   const statusUpdateSubmit = (event) => {
     event.preventDefault();
     const data = {flight_num, dep_date, dep_time, new_status};
-    console.log(data);
     axios.post("http://localhost:3001/staff/changeFlightStatus", data, 
       {
         headers: {
@@ -63,7 +62,7 @@ function StaffHome() {
       }
     ).then((response)=> {
       console.log("Data will be updated in flight table")
-    })
+    });
   }
 
   return (
@@ -71,21 +70,21 @@ function StaffHome() {
       <div className="staffViewFlights">
         <h3>View Flights</h3>
         {listOfFlights.map((value,key) => {
-            return ( 
-                <div className="flight"> 
-                    <div className = "airline_name"> {value.airline_name} </div> 
-                    <div className = "flight_num"> {value.flight_number} </div> 
-                    <div className = "departure"> {value.departure_date} </div> 
-                    <div className = "departure"> {value.departure_time} </div>
-                    <div className = "departure"> {value.departure_airport_code} </div>
-                    <div className = "arrival"> {value.arrival_date} </div> 
-                    <div className = "arrival"> {value.arrival_time} </div>
-                    <div className = "arrival"> {value.arrival_airport_code} </div>
-                    <div className = "airplane_id"> {value.airplane_id} </div>
-                    <div className = "base_price"> {value.base_price} </div>
-                    <div classname = "status"> {value.status} </div>
-                </div>
-            );
+          return ( 
+              <div className="flight"> 
+                  <div className = "airline_name"> {value.airline_name} </div> 
+                  <div className = "flight_num"> {value.flight_number} </div> 
+                  <div className = "departure"> {value.departure_date} </div> 
+                  <div className = "departure"> {value.departure_time} </div>
+                  <div className = "departure"> {value.departure_airport_code} </div>
+                  <div className = "arrival"> {value.arrival_date} </div> 
+                  <div className = "arrival"> {value.arrival_time} </div>
+                  <div className = "arrival"> {value.arrival_airport_code} </div>
+                  <div className = "airplane_id"> {value.airplane_id} </div>
+                  <div className = "base_price"> {value.base_price} </div>
+                  <div classname = "status"> {value.status} </div>
+              </div>
+          );
         })}
       </div> 
       <div id="createFlightContainer">

@@ -21,6 +21,7 @@ function LoginCustomer() {
         localStorage.setItem("user", "customer");
         setAuthState(true);
         history('/customer/home');
+        window.location.reload(false);
       }
     });
   };

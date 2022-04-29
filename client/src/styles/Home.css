@@ -1,4 +1,4 @@
-.flight div {
+.flight div, .airplane div {
     display: inline-block;
     margin: 5px;
 }

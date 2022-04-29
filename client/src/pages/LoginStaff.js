@@ -21,6 +21,7 @@ function LoginStaff() {
         localStorage.setItem("user", "staff");
         setAuthState(true);
         history('/staff/home');
+        window.location.reload(false);
       }
     });
   };

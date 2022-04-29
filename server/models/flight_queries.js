@@ -67,6 +67,19 @@ Flight.getAllAirlines = (result) => {
     });
 };
 
+Flight.getAirplanesOwnedByAirline = (airline_name, result) => {
+    sql.query('SELECT * FROM airplane WHERE airline_name=?',
+    [airline_name], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        //console.log("Airlines: " + res);
+        result(null,res);
+    });
+};
+
 Flight.searchForFlight = (source_city, dest_city, dep_date, result) => {
     sql.query('SELECT * FROM Flight WHERE departure_airport_code = ? AND arrival_airport_code = ? AND departure_date = ?', 
     [source_city, dest_city, dep_date], (err,res) => {
@@ -132,7 +145,6 @@ Flight.getFlightStatus = (al_name, flight_num, dep_date, arr_date, result) => {
 };
 
 Flight.updateFlightStatus = (al_name, flight_num, dep_date, dep_time, new_status, result) => {
-    console.log(al_name, flight_num, dep_date, dep_time, new_status);
     sql.query('UPDATE flight SET status=? WHERE airline_name=? AND flight_number=? AND departure_date=? AND departure_time=?', 
     [new_status, al_name, flight_num, dep_date, dep_time], (err,res) => {
         if (err) {
@@ -144,19 +156,6 @@ Flight.updateFlightStatus = (al_name, flight_num, dep_date, dep_time, new_status
         console.log("Updated Flight: " + res);
         result(null,res);
     });
-
-    // sql.query('UPDATE flight SET status=? WHERE airline_name=? AND flight_number=? AND departure_time=?', 
-    // [new_status, al_name, flight_num, dep_time], (err,res) => {
-    //     if (err) {
-    //         console.log("Error: ", err);
-    //         result(null,err);
-    //         return;
-    //     }
-    //     console.log(res.affectedRows + " record(s) updated");
-    //     console.log("Updated Flight: " + res);
-    //     result(null,res);
-    // });
-
 };
 
 
