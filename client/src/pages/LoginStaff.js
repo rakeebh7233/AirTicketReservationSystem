@@ -18,6 +18,7 @@ function LoginStaff() {
         alert(response.data.error)
       } else {
         localStorage.setItem("accessToken", response.data);
+        localStorage.setItem("user", "staff");
         setAuthState(true);
         history('/staff/home');
       }

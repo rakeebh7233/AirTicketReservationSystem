@@ -29,30 +29,38 @@ function App() {
       }
     })
     .then((response) => {
+      const user = localStorage.getItem('user');
       if (response.data.error) {
+        setCustomerState(false);
         setAuthState(false)
       } else {
         setAuthState(true)
+        if (user==="customer") {
+          setCustomerState(true);
+        } else {
+          setCustomerState(false);
+        }
       }
     });
 
-    axios.get("http://localhost:3001/customer/auth", {
-      headers: {
-        accessToken: localStorage.getItem('accessToken'),
-      }
-    })
-    .then((response) => {
-      if (response.data.error) {
-        setCustomerState(false)
-      } else {
-        setCustomerState(true)
-      }
-    });
+    // axios.get("http://localhost:3001/customer/auth", {
+    //   headers: {
+    //     accessToken: localStorage.getItem('accessToken'),
+    //   }
+    // })
+    // .then((response) => {
+    //   if (response.data.error) {
+    //     setCustomerState(false)
+    //   } else {
+    //     setCustomerState(true)
+    //   }
+    // });
 
   }, []);
 
   const logout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     setAuthState(false);
     setCustomerState(false);
     //history('/');
@@ -109,7 +117,7 @@ function App() {
                       </li>
                     </ul>
                   </>
-                ) : (
+                ) : ( 
                   <button onClick={logout}>Logout</button>
                 )}
               </div>

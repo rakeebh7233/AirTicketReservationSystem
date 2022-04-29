@@ -18,6 +18,7 @@ function LoginCustomer() {
       if (response.data.error) alert(response.data.error);
       else {
         localStorage.setItem("accessToken", response.data);
+        localStorage.setItem("user", "customer");
         setAuthState(true);
         history('/customer/home');
       }

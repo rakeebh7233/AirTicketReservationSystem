@@ -34,7 +34,7 @@ Customer.getCustomerInfo = (customer_email, result) => {
             result(null,err);
             return;
         }
-        console.log("Customer: " + res);
+        //console.log("Customer: " + res);
         result(null,res);
     });
 };
@@ -46,7 +46,7 @@ Staff.getStaffInfo = (staff_username, result) => {
             result(null,err);
             return;
         }
-        console.log("Airline Staff: " + res);
+        //console.log("Airline Staff: " + res);
         result(null,res);
     });
 };

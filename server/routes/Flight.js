@@ -41,4 +41,5 @@ router.get("/getStatus/:al_name/:flight_num/:dep_date/:arr_date", async(req,res)
 
 
 
+
 module.exports = router;

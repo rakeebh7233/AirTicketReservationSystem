@@ -6,7 +6,7 @@ const User = require('../models/user_queries');
 const { validateToken } = require('../middleware/auth');
 
 router.get("/viewAirlineFlights", validateToken, async (req,res) => {
-    User.Staff.getStaffInfo(req.user.username, (err, data) => {
+    User.Staff.getStaffInfo(req.user.staff.username, (err, data) => {
         Flight.searchAirlineFlight(data[0].airline_name, (err,data) => {
             if (err) throw err;
             res.send(data);
@@ -21,13 +21,23 @@ router.post("/createFlight", validateToken, async(req,res) => {
     Flight.insertFlight(newFlight);
 });
 
-router.post("/changeFlightStatus/:al_name/:flight_num/:dep_date/:dep_time/:new_status", validateToken, async (req,res) => {
-    Flight.updateFlightStatus(req.params.al_name, req.params.flight_num, req.params.dep_date, req.params.dep_time, 
-                                req.params.new_status, (err,data) => {
-        if (err) throw err;
-        res.json("Flight Status has been updated");
-    })
+router.post("/changeFlightStatus", validateToken, async(req,res) => {
+    console.log(req.body);  
+    console.log(req.user.staff.airline_name)
+    Flight.updateFlightStatus(req.user.staff.airline_name,req.body.flight_num,req.body.dep_date,req.body.dep_time,
+        req.body.new_status, (err,data) => {
+            if (err) throw err;
+            res.json("Flight Status has been updated");
+        })
 });
+
+// router.post("/changeFlightStatus/:al_name/:flight_num/:dep_date/:dep_time/:new_status", validateToken, async (req,res) => {
+//     Flight.updateFlightStatus(req.params.al_name, req.params.flight_num, req.params.dep_date, req.params.dep_time, 
+//                                 req.params.new_status, (err,data) => {
+//         if (err) throw err;
+//         res.json("Flight Status has been updated");
+//     })
+// });
 
 router.post("/addAirplane/:airplane_id/:airline_name/:num_seats/:manufacturing_company/:age", validateToken, async(req,res) => {
     Flight.insertAirplane(req.params.airplane_id, req.params.airline_name, req.params.num_seats,

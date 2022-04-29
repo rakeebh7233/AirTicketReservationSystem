@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react"; 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-
 function StaffHome() {
   const [listOfFlights, setListOfFlights] = useState([]);
 
@@ -49,7 +48,24 @@ function StaffHome() {
     base_price: null,
     status: null
   }
-  
+
+  let flight_num, dep_date, dep_time, new_status;
+
+  const statusUpdateSubmit = (event) => {
+    event.preventDefault();
+    const data = {flight_num, dep_date, dep_time, new_status};
+    console.log(data);
+    axios.post("http://localhost:3001/staff/changeFlightStatus", data, 
+      {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        }
+      }
+    ).then((response)=> {
+      console.log("Data will be updated in flight table")
+    })
+  }
+
   return (
     <section className="staffHome">
       <div className="staffViewFlights">
@@ -72,78 +88,94 @@ function StaffHome() {
             );
         })}
       </div> 
-      <h3>Create New Flight</h3>
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
-        <Form className="createFlight">
-          <label>Airline Name:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="airline_name" 
-          />
-          <label>Flight Number:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="flight_number" 
-          />
-          <label>Departure Date:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="departure_date" 
-          />
-          <label>Departure Time:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="departure_time" 
-          />
-          <label>Departure Airport Code:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="departure_airport_code" 
-          />
-          <label>Arrival Date:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="arrival_date" 
-          />
-          <label>Arrival Time:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="arrival_time" 
-          />
-          <label>Arrival Airport Code:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="arrival_airport_code" 
-          />
-          <label>Airplane ID:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="airplane_id" 
-          />
-          <label>Base Price:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="base_price" 
-          />
-          <label>Status:</label>
-          <Field 
-              autocomplete="off"
-              id="inputCreateFlight" 
-              name="status" 
-          />
-          <button type="submit">Submit</button>
-        </Form>
-      </Formik>
+      <div id="createFlightContainer">
+        <h3>Create New Flight</h3>
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+          <Form className="createFlight">
+            <label>Airline Name:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="airline_name" 
+            />
+            <label>Flight Number:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="flight_number" 
+            />
+            <label>Departure Date:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="departure_date" 
+            />
+            <label>Departure Time:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="departure_time" 
+            />
+            <label>Departure Airport Code:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="departure_airport_code" 
+            />
+            <label>Arrival Date:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="arrival_date" 
+            />
+            <label>Arrival Time:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="arrival_time" 
+            />
+            <label>Arrival Airport Code:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="arrival_airport_code" 
+            />
+            <label>Airplane ID:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="airplane_id" 
+            />
+            <label>Base Price:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="base_price" 
+            />
+            <label>Status:</label>
+            <Field 
+                autocomplete="off"
+                id="inputCreateFlight" 
+                name="status" 
+            />
+            <button type="submit">Submit</button>
+          </Form>
+        </Formik>
+      </div>
+      <div className="changeStatusContainer">
+        <h3>Change Flight Status</h3>
+        <form onSubmit={statusUpdateSubmit}>
+          <label>Flight Number: </label>
+          <input type="text" onChange={(e)=>flight_num=e.target.value}/>
+          <label>Departure Date: </label>
+          <input type="text" onChange={(e)=>dep_date=e.target.value} />
+          <label>Departure Time: </label>
+          <input type="text" onChange={(e)=>dep_time=e.target.value} />
+          <label>Status: </label>
+          <input type="text" onChange={(e)=>new_status=e.target.value} />
+          <input type="submit"></input>
+        </form>
+      </div>
     </section>
   )
 }
