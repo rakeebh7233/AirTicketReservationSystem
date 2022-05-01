@@ -106,15 +106,15 @@ Flight.searchFutureFlight = (source_city, dest_city, dep_date, result) => {
     });
 };
 
-Flight.searchReturnFlight = (source_city, dest_city, ret_date, result) => {
-    sql.query('SELECT * FROM Flight WHERE departure_airport_code = ? AND arrival_airport_code = ? AND arrival_date > (SELECT CURDATE()) AND arrival_date = ?', 
-    [source_city, dest_city, ret_date], (err,res) => {
+Flight.searchReturnFlight = (source_city, dest_city, dep_date, ret_date, result) => {
+    sql.query('SELECT * FROM Flight WHERE departure_airport_code = ? AND arrival_airport_code = ? AND arrival_date > ? AND arrival_date = ?', 
+    [source_city, dest_city, dep_date, ret_date], (err,res) => {
         if (err) {
             console.log("Error: ", err);
             result(null,err);
             return;
         }
-        console.log("Flights: " + res);
+        console.log("Return Flights: " + res);
         result(null,res);
     });
 };

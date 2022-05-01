@@ -41,7 +41,7 @@ function CustomerSearch() {
             setReturnFlights([]);
             if (ret_date !== "") {
                 console.log(ret_date);
-                axios.get(`http://localhost:3001/flights/searchReturnFlights/${dest_city}/${source_city}/${ret_date}`,
+                axios.get(`http://localhost:3001/flights/searchReturnFlights/${dest_city}/${source_city}/${dep_date}/${ret_date}`,
                 {
                     headers: {
                     accessToken: localStorage.getItem("accessToken"),

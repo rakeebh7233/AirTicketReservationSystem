@@ -157,12 +157,14 @@ function StaffHome() {
                 autocomplete="off"
                 id="inputCreateFlight" 
                 name="departure_date" 
+                placeholder="YYYY-MM-DD"
             />
             <label>Departure Time:</label>
             <Field 
                 autocomplete="off"
                 id="inputCreateFlight" 
                 name="departure_time" 
+                placeholder="HH:MM:SS"
             />
             <label>Departure Airport Code:</label>
             <Field 
@@ -175,12 +177,14 @@ function StaffHome() {
                 autocomplete="off"
                 id="inputCreateFlight" 
                 name="arrival_date" 
+                placeholder="YYYY-MM-DD"
             />
             <label>Arrival Time:</label>
             <Field 
                 autocomplete="off"
                 id="inputCreateFlight" 
                 name="arrival_time" 
+                placeholder="HH:MM:SS"
             />
             <label>Arrival Airport Code:</label>
             <Field 
@@ -205,6 +209,7 @@ function StaffHome() {
                 autocomplete="off"
                 id="inputCreateFlight" 
                 name="status" 
+                placeholder="on-time/status"
             />
             <button type="submit">Submit</button>
           </Form>
