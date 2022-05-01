@@ -45,6 +45,18 @@ Ticket.searchFutureFlights = (email_address, result) => {
     });
 };
 
+Ticket.getFlightCustomers = (flight_number, departure_date, departure_time, result) => {
+    sql.query('SELECT email_address FROM ticket WHERE flight_number=? AND departure_date=? AND departure_time=?',
+    [flight_number, departure_date, departure_time], (err,res) => {
+        if (err) { 
+            result(null,err);
+            return;
+        }
+        console.log("Searched Flight's Customers: " + res);
+        result(null,res);
+    });
+}
+
 Ticket.searchCustomerFlights = (email_address, source_city, dest_city, dateA, dateB, result) => {
     sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ?) AND departure_airport_code = ? AND arrival_airport_code = ? AND (departure_date BETWEEN ? AND ?)', 
     [email_address, source_city, dest_city, dateA, dateB], (err,res) => {
@@ -198,7 +210,7 @@ Ticket.pastYearRevenueTravelClass = (airline_name, result) => {
             result(null,err);
             return;
         }
-        console.log("Total Sold Travel Class Past Year: " + res);
+        //console.log("Total Sold Travel Class Past Year: " + res);
         result(null,res);
     });
 };
@@ -211,7 +223,7 @@ Ticket.pastYearSold = (airline_name, result) => {
             result(null,err);
             return;
         }
-        console.log("Total Sold Past Year: " + res);
+        //console.log("Total Sold Past Year: " + res);
         result(null,res);
     });
 };
@@ -224,11 +236,10 @@ Ticket.lastMonthSold = (airline_name, result) => {
             result(null,err);
             return;
         }
-        console.log("Total Sold Past 6 Months: " + res);
+        //console.log("Total Sold Past 6 Months: " + res);
         result(null,res);
     });
 };
-
 
 Ticket.rangeSold = (airline_name, dateA, dateB,result) => {
     sql.query('SELECT COUNT(*) as totalSold, SUM(sold_price) as totalRevenue, MONTH(purchase_date) as month, YEAR(purchase_date) as year FROM Ticket WHERE airline_name = ? AND purchase_date BETWEEN ? AND ? GROUP BY MONTH(purchase_date), YEAR(purchase_date)', 
@@ -251,15 +262,39 @@ Ticket.pastYearSoldTravelClass = (airline_name, result) => {
             result(null,err);
             return;
         }
-        console.log("Total Sold Travel Class Past Year: " + res);
+        //console.log("Total Sold Travel Class Past Year: " + res);
         result(null,res);
     });
 };
 
+Ticket.getMostFreqCustomer = (airline_name, result) => {
+    sql.query('SELECT name, email_address FROM ticket NATURAL JOIN customer WHERE airline_name=? GROUP BY email_address ORDER by COUNT(*) DESC LIMIT 1',
+    [airline_name], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Most frequent customer: " + res);
+        result(null,res);
+    });
+}
+
+Ticket.getTopDestinations = (airline_name, result) => {
+    const sqlQuery = `SELECT city FROM airport WHERE airport_code IN (
+        SELECT arrival_airport_code FROM ticket NATURAL JOIN flight
+        WHERE airline_name=? 
+        GROUP BY arrival_airport_code
+        ORDER by COUNT(*) DESC) LIMIT 3`
+    sql.query(sqlQuery,[airline_name], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Top Destinations: " + res);
+        result(null,res);
+    });
+} 
+
 module.exports = { Ticket }
-
-//Still have to do 7,11
-
-
-
-

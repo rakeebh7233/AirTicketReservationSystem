@@ -3,7 +3,6 @@ import axios from "axios";
 
 function StaffAdd() {
     const [listOfFAirplanes, setListOfAirplanes] = useState([]);
-
     useEffect(() => {
         axios.get(`http://localhost:3001/staff/airplanesOwned`,
           {
@@ -48,6 +47,7 @@ function StaffAdd() {
         }
         ).then((response)=> {
             console.log("Data will be added into airplane table");
+            window.location.reload(false);
         });
     }
 
@@ -72,8 +72,6 @@ function StaffAdd() {
                 <form onSubmit={airplaneSubmit}>
                     <label>Airplane ID: </label>
                     <input type="text" onChange={(e)=>airplane_id=e.target.value}/>
-                    <label>Airline Name: </label>
-                    <input type="text" onChange={(e)=>airline_name=e.target.value} />
                     <label>Number of Seats: </label>
                     <input type="text" onChange={(e)=>num_seats=e.target.value} />
                     <label>Manufactoring Company: </label>

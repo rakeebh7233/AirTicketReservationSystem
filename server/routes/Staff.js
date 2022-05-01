@@ -7,14 +7,26 @@ const { validateToken } = require('../middleware/auth');
 
 router.get("/viewAirlineFlights", validateToken, async (req,res) => {
     User.Staff.getStaffInfo(req.user.staff.username, (err, data) => {
-        Flight.searchAirlineFlight(data[0].airline_name, (err,data) => {
+        Flight.searchAirlineFlight(req.user.staff.airline_name, (err,data) => {
             if (err) throw err;
             res.send(data);
         });
     });
 });
 
+router.post("/viewFlightCustomers", validateToken, async (req,res) => {
+    console.log(req.body)
+    console.log("here")
+    Ticket.getFlightCustomers(req.body.flight_number, req.body.departure_date, req.body.departure_time,
+        (err,data) => {
+            if (err) throw err;
+            res.send(data)
+        }
+    );
+});
+
 router.post("/createFlight", validateToken, async(req,res) => {
+    req.body.airline_name = req.user.staff.airline_name
     const newFlight = Flight(req.body);
     Flight.insertFlight(newFlight);
     res.json("Flight has been added into the System");
@@ -36,7 +48,7 @@ router.get("/airplanesOwned", validateToken, async(req,res) => {
 });
 
 router.post("/addAirplane", validateToken, async(req,res) => {
-    Flight.insertAirplane(req.body.airplane_id, req.body.airline_name, req.body.num_seats,
+    Flight.insertAirplane(req.body.airplane_id, req.user.staff.airline_name, req.body.num_seats,
                             req.body.manufacturing_company, req.body.age, (err,data) => {
         if (err) throw err;
         res.json("Airplane has been added into the System");
@@ -54,6 +66,14 @@ router.post("/addAirport", validateToken, async(req,res) => {
 router.get("/ratings", validateToken, async(req,res) => {
     Ticket.viewFlightRatings(req.user.staff.airline_name, (err,data) => {
         if (err) throw err;
+        res.send(data);
+    });
+});
+
+router.get("/frequentCustomer", validateToken, async(req,res) => {
+    Ticket.getMostFreqCustomer(req.user.staff.airline_name, (err,data) => {
+        if (err) throw err;
+        console.log(data)
         res.send(data);
     });
 });
@@ -107,21 +127,11 @@ router.get("/sold/class", validateToken, async(req,res) => {
     });
 });
 
-/*
-router.get("/viewRatings", validateToken, async(req,res) => {
-    User.Staff.getStaffInfo(req.user.username, (err, data) => {
-        Ticket.viewFlightRatings(data[0].airline_name, (err,data) => {
-            if (err) throw err;
-            res.send(data);
-        });
+router.get("/topDestinations", validateToken, async (req,res) => {
+    Ticket.getTopDestinations(req.user.staff.airline_name, (err,data) => {
+        if (err) throw err;
+        res.send(data);
     });
-});
-*/
-
-//Still to complete: 1, 7, 8, 11, 12
-
-router.get('/auth', validateToken, (req,res) => {
-    res.json(req.user);
 });
 
 module.exports = router;

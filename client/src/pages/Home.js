@@ -1,4 +1,4 @@
-import '../styles/Home.css';
+import '../styles/App.css';
 import React from "react";
 import axios from "axios"; 
 import { useEffect, useState } from "react"; 
@@ -98,23 +98,41 @@ function Home() {
       </div>
       <br/><br/>
       <h3>All Flights</h3>
-      {listOfFlights.map((value,key) => {
-        return ( 
-          <div className="flight"> 
-            <div className = "airline_name"> {value.airline_name} </div> 
-            <div className = "flight_num"> {value.flight_number} </div> 
-            <div className = "departure"> {value.departure_date.substr(0,10)} </div> 
-            <div className = "departure"> {value.departure_time} </div>
-            <div className = "departure"> {value.departure_airport_code} </div>
-            <div className = "arrival"> {value.arrival_date.substr(0,10)} </div> 
-            <div className = "arrival"> {value.arrival_time} </div>
-            <div className = "arrival"> {value.arrival_airport_code} </div>
-            <div className = "airplane_id"> {value.airplane_id} </div>
-            <div className = "base_price"> {value.base_price} </div>
-            <div classname = "status"> {value.status} </div>
-          </div>
-        );
-      })}
+      <table class="table">
+        <thead>
+          <th>Airline Name</th>
+          <th>Flight Num</th>
+          <th>Departure Date</th>
+          <th>Departure Time</th>
+          <th>Departure Airport Code</th>
+          <th>Arrival Date</th>
+          <th>Arrival Time</th>
+          <th>Arrival Airport Code</th>
+          <th>Airplane ID</th>
+          <th>Base Price</th>
+          <th>Status</th>
+        </thead>
+        <tbody>
+          {listOfFlights.map((value,key) => {
+            return ( 
+              <tr> 
+                <td> {value.airline_name} </td> 
+                <td> {value.flight_number} </td> 
+                <td> {value.departure_date.substr(0,10)} </td> 
+                <td> {value.departure_time} </td>
+                <td> {value.departure_airport_code} </td>
+                <td> {value.arrival_date.substr(0,10)} </td> 
+                <td> {value.arrival_time} </td>
+                <td> {value.arrival_airport_code} </td>
+                <td> {value.airplane_id} </td>
+                <td> {value.base_price} </td>
+                <td> {value.status} </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      
     </div> 
   ); 
 }

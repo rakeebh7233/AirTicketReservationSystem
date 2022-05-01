@@ -82,7 +82,7 @@ function CustomerHome() {
     };
 
     return(
-      <div className="CustomerHome">
+      <section className="CustomerHome">
 
         <div className="searchFlightContainer">
           <h3>Search For A Specific Upcoming Flight</h3>
@@ -138,7 +138,7 @@ function CustomerHome() {
             </div>
         );
         })}
-    </div> 
+    </section> 
     ); 
 }
 

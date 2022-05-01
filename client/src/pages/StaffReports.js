@@ -13,9 +13,10 @@ function StaffReports() {
     const [classRevenue, setClassRevenue] = useState([]);
     const [rangeState, setRangeState] = useState(false);
     let { start_date, end_date } = useParams();
+    const [topDestinationList, setTopDestinationList] = useState([]);
+
 
     useEffect(() => {
-
         axios.get(`http://localhost:3001/staff/sold/year`, 
             {
                 headers: {
@@ -33,6 +34,7 @@ function StaffReports() {
        lastMonthSold();
        travelClassRevenue();
        setRangeState(false);
+       topDestinations();
 
     }, []);
 
@@ -47,7 +49,7 @@ function StaffReports() {
             if (response.data.error) {
                 console.log(response.data.error);
               } else {
-                console.log("Month Data: " + response.data);
+                //console.log("Month Data: " + response.data);
                 setMonthSold(response.data);
               }
         });
@@ -64,7 +66,7 @@ function StaffReports() {
           if (response.data.error) {
             console.log(response.data.error);
           } else {
-            console.log("Range Data: " + response.data);
+            // console.log("Range Data: " + response.data);
             setRangeSold(response.data);
           }
         });
@@ -82,7 +84,7 @@ function StaffReports() {
           if (response.data.error) {
             console.log(response.data.error);
           } else {
-            console.log("Travel Class Data: " + response.data);
+            // console.log("Travel Class Data: " + response.data);
             setClassRevenue(response.data);
           }
         });
@@ -93,6 +95,22 @@ function StaffReports() {
         setRangeState(false);
     };
 
+    const topDestinations = () => {
+        axios.get(`http://localhost:3001/staff/topDestinations`,
+          {
+            headers: {
+              accessToken: localStorage.getItem("accessToken"),
+            },
+          }
+        ).then((response) => {
+          if (response.data.error) {
+            console.log(response.data.error);
+        } else {
+            console.log("Top Destinations: " + response.data);
+            setTopDestinationList(response.data);
+          }
+        });
+    }
 
     return(
         <div className="Staff Reports">
@@ -196,23 +214,31 @@ function StaffReports() {
             <br/>
             <p style={{'fontSize': '25px', 'marginBottom': '20px'}}>Revenue by Travel Class</p>
             <table id="ticketSales" style={{'marginBottom': '20px', 'margin-left':'auto', 'margin-right':'auto'}}>
-            <thead>
-                <tr>
-                <th>Travel Class</th>
-                <th>Ticket Revenue</th>
-                </tr>
-            </thead>
-            <tbody>
-                {classRevenue.map((value,key) => {
-                    return (
-                        <tr>
-                            <td>{value.travel_class.toUpperCase()}</td>
-                            <td>${value.classRev}</td>
-                        </tr>
-                    );
-                })}
-            </tbody>
+                <thead>
+                    <tr>
+                    <th>Travel Class</th>
+                    <th>Ticket Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {classRevenue.map((value,key) => {
+                        return (
+                            <tr>
+                                <td>{value.travel_class.toUpperCase()}</td>
+                                <td>${value.classRev}</td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
             </table>
+            <br />
+            <h3>Top Destinations</h3>
+            {console.log(topDestinationList)}
+            {topDestinationList.map( value => {
+                return (
+                    <div>{value.city}</div>
+                )
+            })}
         </div>
     );
 };

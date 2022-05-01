@@ -10,9 +10,10 @@ import CustomerSearch from './pages/CustomerSearch';
 import CustomerReview from './pages/CustomerReview';
 import CustomerSpending from './pages/CustomerSpending';
 import StaffHome from './pages/StaffHome';
-import StaffReview from './pages/StaffReview';
 import StaffAdd from './pages/StaffAdd';
+import StaffCustomerData from './pages/StaffCustomerData';
 import StaffReports from './pages/StaffReports';
+import LogOut from './pages/Logout';
 import {AuthContext} from "./helpers/AuthContext";
 import { useState, useEffect } from "react"
 import axios from 'axios';
@@ -49,20 +50,6 @@ function App() {
         }
       }
     });
-
-    // axios.get("http://localhost:3001/customer/auth", {
-    //   headers: {
-    //     accessToken: localStorage.getItem('accessToken'),
-    //   }
-    // })
-    // .then((response) => {
-    //   if (response.data.error) {
-    //     setCustomerState(false)
-    //   } else {
-    //     setCustomerState(true)
-    //   }
-    // });
-
   }, []);
 
   const logout = () => {
@@ -114,7 +101,7 @@ function App() {
                       <a class="nav-link" href="/staff/add">Add Airplanes</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="/staff/review">Flight Reviews</a>
+                      <a class="nav-link" href="/staff/customer-data">Customer Data</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="/staff/reports">Sales Report</a>
@@ -143,7 +130,7 @@ function App() {
                 </>
               ) : ( 
                 <ul class="navbar-nav ms-auto">
-                  <a class="nav-link" onClick={logout}>Logout</a>
+                  <a class="nav-link" href="/logout" onClick={logout}>Logout</a>
                 </ul>
                 // <button onClick={logout}>Logout</button>
               )}
@@ -161,9 +148,10 @@ function App() {
           <Route path="/customer/review" element={<CustomerReview />} />
           <Route path="/customer/spending" element={<CustomerSpending />} />
           <Route path="/staff/home" element={<StaffHome />} />
-          <Route path="/staff/review" element={<StaffReview />} />
           <Route path="/staff/add" element={<StaffAdd />} />
+          <Route path="/staff/customer-data" element={<StaffCustomerData />} />
           <Route path="/staff/reports" element={<StaffReports />} />
+          <Route path="/logout" element={<LogOut />} />
         </Routes>
       </AuthContext.Provider>
     </div>
