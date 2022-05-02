@@ -3,10 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"; 
 import { useParams } from "react-router-dom";
 
-
-
 function StaffReports() {
-
     const [yearSold, setYearSold] = useState([]);
     const [monthSold, setMonthSold] = useState([]);
     const [rangeSold, setRangeSold] = useState([]);
@@ -15,6 +12,10 @@ function StaffReports() {
     let { start_date, end_date } = useParams();
     const [topDestinationList, setTopDestinationList] = useState([]);
 
+    const user = localStorage.getItem("user");
+    if (user!="staff") {
+      window.location.replace('/')
+    }
 
     useEffect(() => {
         axios.get(`http://localhost:3001/staff/sold/year`, 
@@ -113,19 +114,17 @@ function StaffReports() {
     }
 
     return(
-        <div className="Staff Reports">
-            <h3 style={{'fontSize': '40px', 'marginBottom': '25px'}}>Track Ticket Sales</h3>
+        <section className="Staff Reports">
+            <h3>Track Ticket Sales</h3>
             <br/>
-            <p style={{'fontSize': '25px', 'marginBottom': '20px'}}>Yearly Report</p>
-            <table id="ticketSales" style={{'marginBottom': '20px', 'margin-left':'auto', 'margin-right':'auto'}}>
+            <p style={{'fontSize': '23px'}}>Yearly Report</p>
+            <table class = "table">
                 <thead>
-                    <tr>
                     <th>Tickets Sold</th>
                     <th>Ticket Revenue</th>
-                    </tr>
                 </thead>
                 <tbody>
-                {yearSold.map((value,key) => {
+                    {yearSold.map((value,key) => {
                         return (
                             <tr>
                                 <td>{value.totalSold}</td>
@@ -135,16 +134,13 @@ function StaffReports() {
                     })}
                 </tbody>
             </table>
-            <br/>
-            <p style={{'fontSize': '25px', 'marginBottom': '20px'}}>Monthly Report</p>
-            <table id="ticketSales" style={{'marginBottom': '20px', 'margin-left':'auto', 'margin-right':'auto'}}>
+            <p style={{'fontSize': '23px', 'marginBottom': '20px'}}>Monthly Report</p>
+            <table class="table">
             <thead>
-                <tr>
                 <th>Month</th>
                 <th>Year</th>
                 <th>Ticket Sales</th>
                 <th>Ticket Revenue</th>
-                </tr>
             </thead>
             <tbody>
                 {monthSold.map((value,key) => {
@@ -163,7 +159,7 @@ function StaffReports() {
             {!rangeState ? (
                 <>
                     <div className="setRangeContainer">
-                        <h3 style={{'fontSize': '25px', 'marginBottom': '2-px'}}>View Sales Report in Range: </h3>
+                        <h3 style={{'fontSize': '23px'}}>View Sales Report in Range: </h3>
                         <input
                         type="text"
                         placeholder="YYYY-MM-DD"
@@ -183,42 +179,38 @@ function StaffReports() {
                 </>
             ) : (
                 <>
-                    <div className="displayRangeContainer">
-                        <p style={{'fontSize': '25px', 'marginBottom': '20px'}}>Ticket Sales In Desired Range</p>
-                        <table id="flightSpending" style={{'marginBottom': '20px', 'margin-left':'auto', 'margin-right':'auto'}}>
-                        <thead>
-                            <tr>
-                            <th>Month</th>
-                            <th>Year</th>
-                            <th>Ticket Sales</th>
-                            <th>Ticket Revenue</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rangeSold.map((value,key) => {
-                                return (
-                                    <tr>
-                                        <td>{value.month}</td>
-                                        <td>{value.year}</td>
-                                        <td>{value.totalSold}</td>
-                                        <td>${value.totalRevenue}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
+                    <div class="table">
+                        <p style={{'fontSize': '23px'}}>Ticket Sales In Desired Range</p>
+                        <table class="table">
+                            <thead>
+                                <th>Month</th>
+                                <th>Year</th>
+                                <th>Ticket Sales</th>
+                                <th>Ticket Revenue</th>
+                            </thead>
+                            <tbody>
+                                {rangeSold.map((value,key) => {
+                                    return (
+                                        <tr>
+                                            <td>{value.month}</td>
+                                            <td>{value.year}</td>
+                                            <td>{value.totalSold}</td>
+                                            <td>${value.totalRevenue}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
                         </table>
                         <button onClick={NewRange}> SET NEW RANGE </button>
                     </div>
                 </>
             )}
             <br/>
-            <p style={{'fontSize': '25px', 'marginBottom': '20px'}}>Revenue by Travel Class</p>
-            <table id="ticketSales" style={{'marginBottom': '20px', 'margin-left':'auto', 'margin-right':'auto'}}>
+            <p style={{'fontSize': '23px'}}>Revenue by Travel Class</p>
+            <table class="table">
                 <thead>
-                    <tr>
                     <th>Travel Class</th>
                     <th>Ticket Revenue</th>
-                    </tr>
                 </thead>
                 <tbody>
                     {classRevenue.map((value,key) => {
@@ -231,15 +223,13 @@ function StaffReports() {
                     })}
                 </tbody>
             </table>
-            <br />
             <h3>Top Destinations</h3>
-            {console.log(topDestinationList)}
             {topDestinationList.map( value => {
                 return (
-                    <div>{value.city}</div>
+                    <p>{value.city}</p>
                 )
             })}
-        </div>
+        </section>
     );
 };
 

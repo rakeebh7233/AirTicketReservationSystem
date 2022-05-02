@@ -9,11 +9,17 @@ function StaffHome() {
   const [listOfFlights, setListOfFlights] = useState([]);
   const [customerList, setCustomerList] = useState([]);
 
+  const user = localStorage.getItem("user");
+  if (user!="staff") {
+    window.location.replace('/')
+  }
+
   useEffect(() => {
     axios.get(`http://localhost:3001/staff/viewAirlineFlights`,
       {
         headers: {
           accessToken: localStorage.getItem("accessToken"),
+          user: localStorage.getItem("user"),
         },
       }
     ).then((response) => {

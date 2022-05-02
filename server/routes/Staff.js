@@ -15,8 +15,6 @@ router.get("/viewAirlineFlights", validateToken, async (req,res) => {
 });
 
 router.post("/viewFlightCustomers", validateToken, async (req,res) => {
-    console.log(req.body)
-    console.log("here")
     Ticket.getFlightCustomers(req.body.flight_number, req.body.departure_date, req.body.departure_time,
         (err,data) => {
             if (err) throw err;

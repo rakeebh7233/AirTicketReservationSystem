@@ -27,7 +27,10 @@ function RegisterCustomer() {
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/register/customer", data).then((response) => {
-            console.log("Data will be inserted into customer table")
+            if (response.data.error) { alert(response.data.error); }
+            else {
+                console.log("Data will be inserted into customer table")
+            }
         });
     };
 
@@ -66,6 +69,7 @@ function RegisterCustomer() {
                             autocomplete="off"
                             id="inputRegisterCustomer" 
                             name="password" 
+                            type="password"
                             placeholder=""
                         />
                         <label>Name: </label>

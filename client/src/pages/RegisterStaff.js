@@ -17,7 +17,11 @@ function RegisterStaff() {
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/register/staff", data).then((response) => {
-            console.log("Data will be inserted into staff table")
+            if (response.data.error) { 
+                console.log("User already exists")
+                alert(response.data.error);
+             }
+            else { console.log("Data will be inserted into staff table") }
         });
     };
 
@@ -48,6 +52,7 @@ function RegisterStaff() {
                         id="inputRegisterStaff" 
                         name="password" 
                         placeholder=""
+                        type="password"
                     />
                     <label>Airline Name: </label>
                     <ErrorMessage name="airline_name" component="span"/>

@@ -10,6 +10,11 @@ function CustomerHome() {
     const [ticket_id, setTid] = useState("");
     let { source_city, dest_city, dateA, dateB } = useParams();
 
+    const user = localStorage.getItem("user");
+    if (user!="customer") {
+      window.location.replace('/')
+    }
+
     const genHome = () => {
       console.log("genHome called");
       axios.get("http://localhost:3001/customer/viewMyFlights",
@@ -81,9 +86,8 @@ function CustomerHome() {
       });
     };
 
-    return(
+    return (
       <section className="CustomerHome">
-
         <div className="searchFlightContainer">
           <h3>Search For A Specific Upcoming Flight</h3>
           <label>Departure Airport Code:</label>
@@ -117,30 +121,45 @@ function CustomerHome() {
         </div>
 
       <h3>Your Upcoming Flights:</h3>
-        {console.log(listOfFlights)}
-        {listOfFlights.map((value,key) => {
-        return ( 
-            <div className="flight" key={key}> 
-            <div className = "airline_name"> {value.airline_name} </div> 
-            <div className = "flight_num"> {value.flight_number} </div> 
-            <div className = "departure"> {value.departure_date.substr(0,10)} </div> 
-            <div className = "departure"> {value.departure_time} </div>
-            <div className = "departure"> {value.departure_airport_code} </div>
-            <div className = "arrival"> {value.arrival_date.substr(0,10)} </div> 
-            <div className = "arrival"> {value.arrival_time} </div>
-            <div className = "arrival"> {value.arrival_airport_code} </div>
-            <div className = "airplane_id"> {value.airplane_id} </div>
-            <div className = "base_price"> {value.base_price} </div>
-            <div classname = "status"> {value.status} </div>
-            <button onClick={() => {
-              cancelFlight(value.ticket_id);
-            }}>Cancel Flight</button>
-            </div>
-        );
-        })}
+      <table class="table">
+        <thead>
+          <th>Airline Name</th>
+          <th>Flight Num</th>
+          <th>Departure Date</th>
+          <th>Departure Time</th>
+          <th>Departure Airport Code</th>
+          <th>Arrival Date</th>
+          <th>Arrival Time</th>
+          <th>Arrival Airport Code</th>
+          <th>Airplane ID</th>
+          <th>Base Price</th>
+          <th>Status</th>
+        </thead>
+        <tbody>
+          {listOfFlights.map((value,key) => {
+            return ( 
+              <tr> 
+                <td> {value.airline_name} </td> 
+                <td> {value.flight_number} </td> 
+                <td> {value.departure_date.substr(0,10)} </td> 
+                <td> {value.departure_time} </td>
+                <td> {value.departure_airport_code} </td>
+                <td> {value.arrival_date.substr(0,10)} </td> 
+                <td> {value.arrival_time} </td>
+                <td> {value.arrival_airport_code} </td>
+                <td> {value.airplane_id} </td>
+                <td> {value.base_price} </td>
+                <td> {value.status} </td>
+                <td> <button onClick={() => { 
+                  cancelFlight(value.ticket_id);}}>Cancel Flight</button> 
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </section> 
-    ); 
+  ); 
 }
-
 
 export default CustomerHome;

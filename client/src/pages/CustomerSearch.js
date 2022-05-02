@@ -16,8 +16,12 @@ function CustomerSearch() {
     const [departure_time, setDt] = useState("");
     const [base_price, setBp] = useState("");
     let { source_city, dest_city, dep_date, ret_date } = useParams();
-    //let {flight_num, departure_date, departure_time, base_price} = useParams();
     let history = useNavigate();
+    
+    const user = localStorage.getItem("user");
+    if (user!="customer") {
+      window.location.replace('/')
+    }
 
     const searchFlight = () => {
         console.log(source_city + " " + dest_city + " " + dep_date + " " + ret_date);
@@ -95,7 +99,7 @@ function CustomerSearch() {
 
 
     return (
-        <div className="CustomerSearch">
+        <section className="CustomerSearch">
             {!purchaseState ? (
             <>
             <div className="searchFlightContainer">
@@ -138,57 +142,95 @@ function CustomerSearch() {
             </div>
 
             <h3>Departing Flights:</h3>
-            {listOfFlights.map((value,key) => {
-            return ( 
-                <div className="flight"> 
-                <div className = "airline_name"> {value.airline_name} </div> 
-                <div className = "flight_num"> {value.flight_number} </div> 
-                <div className = "departure"> {value.departure_date.substr(0,10)} </div> 
-                <div className = "departure"> {value.departure_time} </div>
-                <div className = "departure"> {value.departure_airport_code} </div>
-                <div className = "arrival"> {value.arrival_date.substr(0,10)} </div> 
-                <div className = "arrival"> {value.arrival_time} </div>
-                <div className = "arrival"> {value.arrival_airport_code} </div>
-                <div className = "airplane_id"> {value.airplane_id} </div>
-                <div className = "base_price"> {value.base_price} </div>
-                <div classname = "status"> {value.status} </div>
-                <button onClick={() => {
-                    setAl(value.airline_name);
-                    setFn(value.flight_number);
-                    setDd(value.departure_date);
-                    setDt(value.departure_time);
-                    setBp(value.base_price);
-                    setPurchaseState(true);
-                }}>Purchase</button>
-                </div>
-            );
-            })}
+            <table class="table">
+                <thead>
+                <th>Airline Name</th>
+                <th>Flight Num</th>
+                <th>Departure Date</th>
+                <th>Departure Time</th>
+                <th>Departure Airport Code</th>
+                <th>Arrival Date</th>
+                <th>Arrival Time</th>
+                <th>Arrival Airport Code</th>
+                <th>Airplane ID</th>
+                <th>Base Price</th>
+                <th>Status</th>
+                </thead>
+                <tbody>
+                {listOfFlights.map((value,key) => {
+                    return ( 
+                    <tr> 
+                        <td> {value.airline_name} </td> 
+                        <td> {value.flight_number} </td> 
+                        <td> {value.departure_date.substr(0,10)} </td> 
+                        <td> {value.departure_time} </td>
+                        <td> {value.departure_airport_code} </td>
+                        <td> {value.arrival_date.substr(0,10)} </td> 
+                        <td> {value.arrival_time} </td>
+                        <td> {value.arrival_airport_code} </td>
+                        <td> {value.airplane_id} </td>
+                        <td> {value.base_price} </td>
+                        <td> {value.status} </td>
+                        <td>
+                            <button onClick={() => {
+                                setAl(value.airline_name);
+                                setFn(value.flight_number);
+                                setDd(value.departure_date);
+                                setDt(value.departure_time);
+                                setBp(value.base_price);
+                                setPurchaseState(true);
+                            }}>Purchase</button>
+                        </td>
+                    </tr>
+                    );
+                })}
+                </tbody>
+            </table>
             <h3>Return Flights:</h3>
-            {returnFlights.map((value,key) => {
-            return ( 
-                <div className="flight"> 
-                <div className = "airline_name"> {value.airline_name} </div> 
-                <div className = "flight_num"> {value.flight_number} </div> 
-                <div className = "departure"> {value.departure_date.substr(0,10)} </div> 
-                <div className = "departure"> {value.departure_time} </div>
-                <div className = "departure"> {value.departure_airport_code} </div>
-                <div className = "arrival"> {value.arrival_date.substr(0,10)} </div> 
-                <div className = "arrival"> {value.arrival_time} </div>
-                <div className = "arrival"> {value.arrival_airport_code} </div>
-                <div className = "airplane_id"> {value.airplane_id} </div>
-                <div className = "base_price"> {value.base_price} </div>
-                <div classname = "status"> {value.status} </div>
-                <button onClick={() => {
-                    setAl(value.airline_name);
-                    setFn(value.flight_number);
-                    setDd(value.departure_date);
-                    setDt(value.departure_time);
-                    setBp(value.base_price);
-                    setPurchaseState(true);
-                }}>Purchase</button>
-                </div>
-            );
-            })}
+            <table class="table">
+                <thead>
+                <th>Airline Name</th>
+                <th>Flight Num</th>
+                <th>Departure Date</th>
+                <th>Departure Time</th>
+                <th>Departure Airport Code</th>
+                <th>Arrival Date</th>
+                <th>Arrival Time</th>
+                <th>Arrival Airport Code</th>
+                <th>Airplane ID</th>
+                <th>Base Price</th>
+                <th>Status</th>
+                </thead>
+                <tbody>
+                {returnFlights.map((value,key) => {
+                    return ( 
+                    <tr> 
+                        <td> {value.airline_name} </td> 
+                        <td> {value.flight_number} </td> 
+                        <td> {value.departure_date.substr(0,10)} </td> 
+                        <td> {value.departure_time} </td>
+                        <td> {value.departure_airport_code} </td>
+                        <td> {value.arrival_date.substr(0,10)} </td> 
+                        <td> {value.arrival_time} </td>
+                        <td> {value.arrival_airport_code} </td>
+                        <td> {value.airplane_id} </td>
+                        <td> {value.base_price} </td>
+                        <td> {value.status} </td>
+                        <td>
+                            <button onClick={() => {
+                                setAl(value.airline_name);
+                                setFn(value.flight_number);
+                                setDd(value.departure_date);
+                                setDt(value.departure_time);
+                                setBp(value.base_price);
+                                setPurchaseState(true);
+                            }}>Purchase</button>
+                        </td>
+                    </tr>
+                    );
+                })}
+                </tbody>
+            </table>
             </>
             ) : (
                 <>
@@ -250,7 +292,7 @@ function CustomerSearch() {
                 </>
             )}
 
-        </div>
+        </section>
     );
 };
 

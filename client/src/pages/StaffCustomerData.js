@@ -1,13 +1,16 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react"; 
-//import { useParams, useNavigate } from "react-router-dom";
 
 
 function StaffReview() {
-
     const[listOfFlights, setListOfFlights] = useState([]);
     const[mostFreqCustomer, setMostFreqCustomer] = useState([]);
+
+    const user = localStorage.getItem("user");
+    if (user!="staff") {
+      window.location.replace('/')
+    }
 
     useEffect(() => {
       axios.get("http://localhost:3001/staff/ratings",
@@ -47,17 +50,29 @@ function StaffReview() {
       <section>
         <div className="StaffReview">
           <h3>Flight Reviews:</h3>
-          {listOfFlights.map((value,key) => {
-          return ( 
-            <div className="flight" key={key}> 
-              <div className = "flight_num"> {value.flight_number} </div> 
-              <div className = "avg_rating"> {value.avg_rating} </div> 
-              <div className = "email_address"> {value.email_address} </div>
-              <div className = "rating"> {value.rating} </div>
-              <div className = "comment"> {value.comment} </div> 
-            </div>
-          );
-        })}
+          <table class="table">
+            <thead>
+              <th>Flight Num</th>
+              <th>Average Rating</th>
+              <th>Email Adress</th>
+              <th>Rating</th>
+              <th>Comment</th>
+            </thead>
+            <tbody>
+            {listOfFlights.map((value,key) => {
+              return ( 
+                <tr> 
+                  <td> {value.flight_number} </td> 
+                  <td> {value.avg_rating} </td> 
+                  <td> {value.email_address} </td>
+                  <td> {value.rating} </td>
+                  <td> {value.comment} </td> 
+                </tr>
+              );
+            })}
+            </tbody>
+          </table>
+          
         </div>
 
         <div className="freqCustomer">
@@ -65,8 +80,8 @@ function StaffReview() {
           {mostFreqCustomer.map((value,key) => {
           return ( 
             <div className="flight" key={key}> 
-              <div>{value.name}</div>
-              <div>{value.email_address}</div>
+              <p>Name: {value.name}</p>
+              <p>Email Address: {value.email_address}</p>
             </div>
           );
         })}

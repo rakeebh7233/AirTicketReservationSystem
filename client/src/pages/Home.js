@@ -97,6 +97,7 @@ function Home() {
         <button onClick={searchStatus}> GET STATUS </button>
       </div>
       <br/><br/>
+      
       <h3>All Flights</h3>
       <table class="table">
         <thead>
@@ -132,7 +133,6 @@ function Home() {
           })}
         </tbody>
       </table>
-      
     </div> 
   ); 
 }

@@ -6,14 +6,17 @@ import { useParams } from "react-router-dom";
 
 
 function CustomerSpending() {
-
     const [yearSpent, setYearSpent] = useState([]);
     const [monthsSpent, setMonthsSpent] = useState([]);
     const [rangeState, setRangeState] = useState(false);
     let { start_date, end_date } = useParams();
 
-    useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user!="customer") {
+      window.location.replace('/')
+    }
 
+    useEffect(() => {
         axios.get(`http://localhost:3001/customer/spendingLastYear`, 
             {
                 headers: {
@@ -111,13 +114,11 @@ function CustomerSpending() {
             ) : (
                 <><p style={{'fontSize': '25px', 'marginBottom': '20px'}}>Spending In Desired Range</p></>
             )}
-            <table id="flightSpending" style={{'marginBottom': '20px', 'margin-left':'auto', 'margin-right':'auto'}}>
+            <table class="table">
                 <thead>
-                    <tr>
                     <th>Month</th>
                     <th>Year</th>
                     <th>Spending</th>
-                    </tr>
                 </thead>
                 <tbody>
                     {monthsSpent.map((value,key) => {

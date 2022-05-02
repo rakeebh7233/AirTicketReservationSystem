@@ -3,6 +3,12 @@ import axios from "axios";
 
 function StaffAdd() {
     const [listOfFAirplanes, setListOfAirplanes] = useState([]);
+
+    const user = localStorage.getItem("user");
+    if (user!="staff") {
+      window.location.replace('/')
+    }
+
     useEffect(() => {
         axios.get(`http://localhost:3001/staff/airplanesOwned`,
           {
@@ -55,17 +61,28 @@ function StaffAdd() {
         <section>
             <div className="staffViewAirplanes"> 
                 <h3>View Owned Airplanes</h3>
-                {listOfFAirplanes.map(airplane => {
-                    return (
-                        <div className="airplane">
-                            <div>{airplane.airplane_id}</div>
-                            <div>{airplane.airline_name}</div>
-                            <div>{airplane.num_seats}</div>
-                            <div>{airplane.manufacturing_company}</div>
-                            <div>{airplane.age}</div>
-                        </div>
-                    )
-                })}
+                <table class="table">
+                    <thead>
+                        <th>Airplane ID</th>
+                        <th>Airline Name</th>
+                        <th>Number of Seats</th>
+                        <th>Manufacturer</th>
+                        <th>Airplane Age</th>
+                    </thead>
+                    <tbody>
+                        {listOfFAirplanes.map(airplane => {
+                            return (
+                                <tr>
+                                    <td>{airplane.airplane_id}</td>
+                                    <td>{airplane.airline_name}</td>
+                                    <td>{airplane.num_seats}</td>
+                                    <td>{airplane.manufacturing_company}</td>
+                                    <td>{airplane.age}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
             </div>
             <div id="addAirplaneContainer">
                 <h3>Add Airplane</h3>
