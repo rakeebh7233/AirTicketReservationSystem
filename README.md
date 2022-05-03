@@ -77,5 +77,4 @@ Airline Staff can query for how many flights get delayed/on-time etc
 ![Capture](https://user-images.githubusercontent.com/67334348/164604718-f7c19cf4-7b74-4275-a035-756d534af7a3.PNG)
 
 ### Resources Used
-PedroTech - Full Stack Web Development Course
-https://www.youtube.com/watch?v=Hl7diL7SFw8&list=PLpPqplz6dKxUaZ630TY1BFIo5nP-_x-nL
+PedroTech - Full Stack Web Development Course: https://www.youtube.com/watch?v=Hl7diL7SFw8&list=PLpPqplz6dKxUaZ630TY1BFIo5nP-_x-nL
