@@ -26,11 +26,11 @@ function RegisterStaff() {
     };
 
     const validationSchema = Yup.object().shape({
-        username: Yup.string().max(20).required("Required"),
-        password: Yup.string().max(200).required("Required"),
-        airline_name: Yup.string().max(30).required("Required"),
-        fname: Yup.string().max(20).required("Required"),
-        lname: Yup.string().max(20).required("Required"),
+        username: Yup.string().max(20).required().typeError("Username Required"),
+        password: Yup.string().max(200).required().typeError("Please create a strong password"),
+        airline_name: Yup.string().max(30).required().typeError("Airline Name Required"),
+        fname: Yup.string().max(20).required().typeError("First Name Required"),
+        lname: Yup.string().max(20).required().typeError("Last Name Required"),
     });
 
     return (  
