@@ -27,7 +27,7 @@ function RegisterCustomer() {
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/register/customer", data).then((response) => {
-            if (response.data.error) { alert(response.data.error); }
+            if (response.data.error) alert(response.data.error);
             else {
                 console.log("Data will be inserted into customer table")
             }

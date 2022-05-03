@@ -26,7 +26,7 @@ function CustomerSearch() {
     const searchFlight = () => {
         console.log(source_city + " " + dest_city + " " + dep_date + " " + ret_date);
         if (source_city === "" || dest_city === "" || dep_date === "") {
-            alert("Please enter required fields. Only source return date is optional!");
+            alert("Please enter required fields. Only return date is optional!");
         }
         else {
             axios.get(`http://localhost:3001/flights/searchFutureFlights/${source_city}/${dest_city}/${dep_date}`,
