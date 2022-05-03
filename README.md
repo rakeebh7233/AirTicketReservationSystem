@@ -181,7 +181,7 @@ travel class.
 - App.js - navigation page/component; routes to all other pages
 - index.js - root element for React, renders App component.
 
-## Server Files (/server/)
+### Server Files (/server/)
 - middleware/auth.js - Handles authentication through access tokens
 - models/
     * User_queries.js - all functions containing SQL queries called in the backend for general user (customer or staff) related tasks
