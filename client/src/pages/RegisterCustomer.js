@@ -1,14 +1,12 @@
 import React from 'react';
 import axios from "axios"; 
-//import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import '../styles/RegisterCustomer.css';
 
 
 function RegisterCustomer() {
-
-    //const [listOfCustomers, setListOfCustomers] = useState([]);
 
     const initialValues = {
         email_address: null,
@@ -25,11 +23,14 @@ function RegisterCustomer() {
         passport_country: null,
     };
 
+    const navigate = useNavigate();
+
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/register/customer", data).then((response) => {
             if (response.data.error) alert(response.data.error);
             else {
-                console.log("Data will be inserted into customer table")
+                console.log("Data will be inserted into customer table");
+                navigate("../login/customer");
             }
         });
     };

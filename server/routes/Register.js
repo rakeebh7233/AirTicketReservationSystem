@@ -13,6 +13,7 @@ router.post("/customer", async (req,res) => {
     req.body.password = await bcrypt.hash(req.body.password, 10);
     const customer = User.Customer(req.body);
     User.Customer.insertCustomer(customer);
+    res.json("success");
 });
 
 router.post("/staff", async (req,res) => {
@@ -25,6 +26,7 @@ router.post("/staff", async (req,res) => {
     req.body.password = await bcrypt.hash(req.body.password, 10);
     const staff = User.Staff(req.body);
     User.Staff.insertStaff(staff);
+    res.json("success");
 });
 
 module.exports = router;

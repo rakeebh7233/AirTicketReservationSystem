@@ -53,6 +53,7 @@ router.post('/cancelTrip', validateToken, async(req,res) => {
     Ticket.cancelTicket(req.body.ticket_id, (err,data) => {
         if (err) throw err;
         res.json("Your flight has been canceled");
+        
     });
 });
 

@@ -9,7 +9,7 @@ function LoginStaff() {
   const [password, setPassword] = useState("");
   const {setAuthState} = useContext(AuthContext);
 
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const login = () => {
     const data = { username: username, password: password };
@@ -20,7 +20,7 @@ function LoginStaff() {
         localStorage.setItem("accessToken", response.data);
         localStorage.setItem("user", "staff");
         setAuthState(true);
-        history('/staff/home');
+        navigate('/staff/home');
         window.location.reload(false);
       }
     });

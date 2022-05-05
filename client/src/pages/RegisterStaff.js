@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from "axios"; 
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import '../styles/RegisterStaff.css';
 
@@ -15,12 +16,18 @@ function RegisterStaff() {
         lname: null,
     };
 
+    const navigate = useNavigate();
+
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/register/staff", data).then((response) => {
+            console.log("here")
             if (response.data.error) { 
-                if (response.data.error) alert(response.data.error);
-             }
-            else { console.log("Data will be inserted into staff table") }
+                alert(response.data.error);
+            }
+            else { 
+                console.log("Data will be inserted into staff table");
+                navigate("../login/staff");
+            }
         });
     };
 
