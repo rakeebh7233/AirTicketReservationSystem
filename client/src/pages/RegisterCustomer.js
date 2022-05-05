@@ -27,7 +27,7 @@ function RegisterCustomer() {
 
     const onSubmit = (data) => {
         axios.post("http://localhost:3001/register/customer", data).then((response) => {
-            if (response.data.error) { alert(response.data.error); }
+            if (response.data.error) alert(response.data.error);
             else {
                 console.log("Data will be inserted into customer table")
             }
@@ -35,18 +35,18 @@ function RegisterCustomer() {
     };
 
     const validationSchema = Yup.object().shape({
-        email_address: Yup.string().email().max(30).required("Required"),
-        password: Yup.string().max(200).required("Required"),
-        name: Yup.string().max(30).required("Required"),
-        phone_number: Yup.string().max(20).required("Required"), 
-        date_of_birth: Yup.string().required("Required"),
-        building_number: Yup.number().positive().integer().required("Required"),
-        street: Yup.string().max(20).required("Required"),
-        city: Yup.string().max(20).required("Required"),
-        state: Yup.string().max(20).required("Required"), 
-        passport_number: Yup.string().max(20).required("Required"),
-        passport_expiration: Yup.string().required("Required"),
-        passport_country: Yup.string().max(20).required("Required"),
+        email_address: Yup.string().email().max(30).required().typeError("Please enter a valid email address"),
+        password: Yup.string('please create a strong password').max(200).required().typeError('please create a strong password'),
+        name: Yup.string().max(30).required().typeError('Name Required'),
+        phone_number: Yup.string().max(20).required().typeError('Valid Phone Number Required'), 
+        date_of_birth: Yup.string().required().typeError('Please enter valid DOB in format YYYY-MM-DD'),
+        building_number: Yup.number().positive().integer().required().typeError('Valid Building Number Required'),
+        street: Yup.string().max(20).required().typeError('Street Required'),
+        city: Yup.string().max(20).required().typeError('City Required'),
+        state: Yup.string().max(20).required().typeError('State Required'), 
+        passport_number: Yup.string().max(20).required().typeError('Passport Number Required'),
+        passport_expiration: Yup.string().required().typeError('Passport Expiration required'),
+        passport_country: Yup.string().max(20).required().typeError('Passport Country Required'),
     });
 
     return (  

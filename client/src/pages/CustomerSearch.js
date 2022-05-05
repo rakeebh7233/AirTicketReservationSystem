@@ -26,7 +26,7 @@ function CustomerSearch() {
     const searchFlight = () => {
         console.log(source_city + " " + dest_city + " " + dep_date + " " + ret_date);
         if (source_city === "" || dest_city === "" || dep_date === "") {
-            alert("Please enter required fields. Only source return date is optional!");
+            alert("Please enter required fields. Only return date is optional!");
         }
         else {
             axios.get(`http://localhost:3001/flights/searchFutureFlights/${source_city}/${dest_city}/${dep_date}`,
@@ -90,11 +90,11 @@ function CustomerSearch() {
     };
 
     const validationSchema = Yup.object().shape({
-        travel_class: Yup.string().max(20).required("Required"),
-        card_type: Yup.string().max(20).required("Required"),
-        card_number: Yup.string().max(20).required("Required"),
-        card_expiration: Yup.string().max(20).required("Required"),
-        name_on_card: Yup.string().max(30).required("Required"),
+        travel_class: Yup.string().max(20).required().typeError("Please select a travel class"),
+        card_type: Yup.string().max(20).required().typeError("Please indicate if you are paying with debit/credit"),
+        card_number: Yup.string().max(20).required().typeError("Valid Card Number Required"),
+        card_expiration: Yup.string().max(20).required().typeError("Card Expiration Date Required"),
+        name_on_card: Yup.string().max(30).required().typeError("Name on Card Required"),
     });
 
 
