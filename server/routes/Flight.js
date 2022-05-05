@@ -24,15 +24,6 @@ router.get("/searchFutureFlights/:source_city/:dest_city/:dep_date", async(req,r
     });
 });
 
-/*
-router.get("/searchReturnFlights/:source_city/:dest_city/:ret_date", async(req,res) => {
-    Flight.searchFutureFlight(req.params.source_city, req.params.dest_city, req.params.ret_date, (err,data) => {
-        if(err) throw err;
-        res.send(data);
-    });
-});
-*/
-
 router.get("/searchReturnFlights/:source_city/:dest_city/:dep_date/:ret_date", async(req,res) => {
     Flight.searchReturnFlight(req.params.source_city, req.params.dest_city, req.params.dep_date, req.params.ret_date, (err,data) => {
         if(err) throw err;
