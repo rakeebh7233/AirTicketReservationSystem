@@ -26,7 +26,7 @@ function LoginCustomer() {
     });
   };
   return (
-    <div className="loginContainer">
+    <section className="loginContainer">
       <label>Email Address:</label>
       <input
         type="text"
@@ -43,7 +43,7 @@ function LoginCustomer() {
       />
 
       <button onClick={login}>Login</button>
-    </div>
+    </section>
   );
 }
 

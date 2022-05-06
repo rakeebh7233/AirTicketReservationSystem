@@ -54,6 +54,7 @@ function StaffAdd() {
         ).then((response)=> {
             console.log("Data will be added into airplane table");
             window.location.reload(false);
+            alert("Airport has been added");
         });
     }
 

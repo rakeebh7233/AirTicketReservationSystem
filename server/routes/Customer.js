@@ -11,7 +11,6 @@ router.get('/viewMyFlights', validateToken, async (req,res) => {
     });
 });
 
-//have to add additional search routes/queries
 router.get("/viewSearchedFlights/:source_city/:dest_city/:dateA/:dateB", validateToken, async (req,res) => {
     const email_address = req.user.email_address;
     Ticket.searchCustomerFlights(email_address, req.params.source_city, req.params.dest_city, req.params.dateA, req.params.dateB, (err,data) => {

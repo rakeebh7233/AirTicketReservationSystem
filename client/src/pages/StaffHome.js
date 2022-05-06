@@ -2,12 +2,14 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react"; 
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useParams } from "react-router-dom";
 import '../styles/App.css';
 
 
 function StaffHome() {
   const [listOfFlights, setListOfFlights] = useState([]);
   const [customerList, setCustomerList] = useState([]);
+  let { source_city, dest_city, dateA, dateB } = useParams();
 
   const user = localStorage.getItem("user");
   if (user!="staff") {
@@ -30,6 +32,22 @@ function StaffHome() {
       }
     });
   }, []);
+
+  const searchFlight = () => {
+    axios.get(`http://localhost:3001/staff/viewSearchedFlights/${source_city}/${dest_city}/${dateA}/${dateB}`,
+      {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      }
+    ).then((response) => {
+      if (response.data.error) {
+        console.log(response.data.error);
+      } else {
+        setListOfFlights(response.data);
+      }
+    });
+  };   
 
   const viewCustomers = (flight_num, dep_date, dep_time) => {
     const data = {flight_number: flight_num, departure_date: dep_date, departure_time: dep_time};
@@ -147,6 +165,37 @@ function StaffHome() {
             <div>{value.email_address}</div>
           )
         })}
+      </div>
+      <div className="searchFlightContainer">
+        <h3>Search For Flights in Range</h3>
+        <label>Departure Airport Code:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            source_city = event.target.value;
+          }}
+        />
+        <label>Arrival Airport Code:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            dest_city = event.target.value;
+          }}
+        />
+        <label>Date Range:</label>
+        <input
+          type="text"
+          onChange={(event) => {
+            dateA = event.target.value;
+          }}
+        />--- 
+        <input 
+          type="text"
+          onChange={(event) => {
+            dateB = event.target.value;
+          }}
+        />
+        <button onClick={searchFlight}> SEARCH </button> 
       </div>
       <div id="createFlightContainer">
         <h3>Create New Flight</h3>

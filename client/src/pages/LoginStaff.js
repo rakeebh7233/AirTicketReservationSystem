@@ -26,7 +26,7 @@ function LoginStaff() {
     });
   };
   return (
-    <div className="loginContainer">
+    <section className="loginContainer">
       <label>Username:</label>
       <input
         type="text"
@@ -43,7 +43,7 @@ function LoginStaff() {
       />
 
       <button onClick={login}>Login</button>
-    </div>
+    </section>
   );
 }
 

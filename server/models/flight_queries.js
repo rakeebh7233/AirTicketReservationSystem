@@ -119,7 +119,7 @@ Flight.searchReturnFlight = (source_city, dest_city, dep_date, ret_date, result)
     });
 };
 
-Flight.searchAirlineFlight = (airline_name, result) => {
+Flight.getAirlineFlight = (airline_name, result) => {
     sql.query('SELECT * FROM Flight WHERE airline_name = ? AND departure_date BETWEEN CURRENT_DATE() AND DATE_ADD(CURRENT_DATE(), INTERVAL 30 DAY)', [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -130,6 +130,18 @@ Flight.searchAirlineFlight = (airline_name, result) => {
         result(null,res);
     });
 };
+
+Flight.searchAirlineFlight = (airline_name, source_city, dest_city, dateA, dateB, result) => { 
+    sql.query('SELECT * FROM Flight WHERE airline_name = ? AND departure_airport_code = ? AND arrival_airport_code = ? AND (departure_date BETWEEN ? AND ?)', 
+    [airline_name, source_city, dest_city, dateA, dateB], (err,res) => {
+        if (err) { 
+            result(null,err);
+            return;
+        }
+        console.log("Searched Airline Flights: " + res);
+        result(null,res);
+    });
+}
 
 Flight.getFlightStatus = (al_name, flight_num, dep_date, arr_date, result) => {
     sql.query('SELECT airline_name, flight_number, status FROM Flight WHERE airline_name = ? AND flight_number = ? AND departure_date = ? AND arrival_date = ?', 
@@ -157,7 +169,6 @@ Flight.updateFlightStatus = (al_name, flight_num, dep_date, dep_time, new_status
         result(null,res);
     });
 };
-
 
 Flight.insertAirplane = (airplane_id, airline_name, num_seats, manufacturing_company, age, result) => {
     sql.query('INSERT INTO Airplane VALUES (?, ?, ?, ?, ?)', [airplane_id, airline_name, num_seats,

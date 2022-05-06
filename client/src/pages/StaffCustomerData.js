@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 function StaffReview() {
     const[listOfFlights, setListOfFlights] = useState([]);
     const[mostFreqCustomer, setMostFreqCustomer] = useState([]);
+    const[listOfCustomerFlights, setListOfCustomerFlights] = useState([]);
+    const[email,setEmail] = useState('');
 
     const user = localStorage.getItem("user");
     if (user!="staff") {
@@ -28,7 +30,7 @@ function StaffReview() {
         }
       });
 
-      axios.get("http://localhost:3001/staff/frequentCustomer",
+    axios.get("http://localhost:3001/staff/frequentCustomer",
         {
           headers: {
             accessToken: localStorage.getItem("accessToken"),
@@ -37,14 +39,33 @@ function StaffReview() {
       ).then((response) => {
         if (response.data.error) {
           console.log(response.data.error);
-          console.log("test")
         } else {
           setMostFreqCustomer(response.data);
-          console.log(response.data)
-          console.log("test")
+          //console.log(response.data)
         }
       });
     }, []);
+
+    //let email_address;
+
+    const viewCustomerFlights = (evt) => {
+      evt.preventDefault();
+      console.log(email)
+      const data = {email};
+      axios.post("http://localhost:3001/staff/viewCustomerFlights", data, 
+      {
+        headers: {
+          accessToken: localStorage.getItem("accessToken"),
+        }
+      }
+      ).then((response) => {
+        if (response.data.error) {
+          console.log(response.data.error);
+        } else {
+          setListOfCustomerFlights(response.data);
+        } 
+      });
+    }
 
     return(
       <section>
@@ -84,9 +105,37 @@ function StaffReview() {
               <p>Email Address: {value.email_address}</p>
             </div>
           );
-        })}
+          })}
         </div>
-      </section>
+
+        {<div>
+          <h3>View a Customer's flights</h3>
+          <form>
+            <label>Customer Email: </label>
+            <input type="text" onChange={(e)=>setEmail(e.target.value)}/>
+            {/* <input type="submit" onSubmit={viewCustomerFlights} ></input> */}
+            <button onClick={viewCustomerFlights}> SEARCH </button>
+          </form>
+          <table class="table">
+            <thead>
+              <th>Flight Number</th>
+              <th>Departure Date</th>
+              <th>Departure Time</th>
+            </thead>
+            <tbody>
+            {listOfCustomerFlights.map(value=> {
+              return (
+                <tr>
+                  <td>{value.flight_number}</td>
+                  <td>{value.departure_date}</td>
+                  <td>{value.departure_time}</td>
+                </tr>
+              );
+            })}
+            </tbody>
+          </table>
+        </div>}
+      </section>  
     );
 }
 

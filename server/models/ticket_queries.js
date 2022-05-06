@@ -32,7 +32,6 @@ Ticket.purchaseTicket = (ticket_id, airline_name, flight_number, departure_date,
 };
 
 Ticket.searchFutureFlights = (email_address, result) => {
-    //sql.query('SELECT * FROM Flight WHERE flight_number IN (SELECT flight_number FROM Ticket WHERE email_address = ? AND ((departure_date > (SELECT CURDATE())) OR (departure_date = (SELECT CURDATE()) and departure_time > (SELECT NOW()))))'
     sql.query('SELECT * FROM Ticket LEFT JOIN Flight ON Ticket.flight_number = Flight.flight_number WHERE email_address = ? AND ((Ticket.departure_date > (SELECT CURDATE())) OR (Ticket.departure_date = (SELECT CURDATE()) and Ticket.departure_time > (SELECT NOW())))',
     [email_address], (err,res) => {
         if (err) {
@@ -268,7 +267,7 @@ Ticket.pastYearSoldTravelClass = (airline_name, result) => {
 };
 
 Ticket.getMostFreqCustomer = (airline_name, result) => {
-    sql.query('SELECT name, email_address FROM ticket NATURAL JOIN customer WHERE airline_name=? GROUP BY email_address ORDER by COUNT(*) DESC LIMIT 1',
+    sql.query('SELECT name, email_address FROM ticket NATURAL JOIN customer WHERE airline_name=? AND purchase_date BETWEEN DATE_ADD(CURRENT_DATE(), INTERVAL -1 YEAR) AND CURRENT_DATE() GROUP BY email_address ORDER by COUNT(*) DESC LIMIT 1',
     [airline_name], (err,res) => {
         if (err) {
             console.log("Error: ", err);
@@ -276,6 +275,19 @@ Ticket.getMostFreqCustomer = (airline_name, result) => {
             return;
         }
         console.log("Most frequent customer: " + res);
+        result(null,res);
+    });
+}
+
+Ticket.viewCustomerFlightsInAirline = (airline_name, email_address, result) => {
+    sql.query('SELECT * FROM `ticket` WHERE airline_name = ? AND email_address=?',
+    [airline_name, email_address], (err,res) => {
+        if (err) {
+            console.log("Error: ", err);
+            result(null,err);
+            return;
+        }
+        console.log("Customer Flights for Airline : " + res);
         result(null,res);
     });
 }

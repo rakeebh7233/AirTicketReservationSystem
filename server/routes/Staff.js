@@ -7,10 +7,17 @@ const { validateToken } = require('../middleware/auth');
 
 router.get("/viewAirlineFlights", validateToken, async (req,res) => {
     User.Staff.getStaffInfo(req.user.staff.username, (err, data) => {
-        Flight.searchAirlineFlight(req.user.staff.airline_name, (err,data) => {
+        Flight.getAirlineFlight(req.user.staff.airline_name, (err,data) => {
             if (err) throw err;
             res.send(data);
         });
+    });
+});
+
+router.get("/viewSearchedFlights/:source_city/:dest_city/:dateA/:dateB", validateToken, async (req,res) => {
+    Flight.searchAirlineFlight(req.user.staff.airline_name, req.params.source_city, req.params.dest_city, req.params.dateA, req.params.dateB, (err,data) => {
+        if (err) throw error;
+        res.send(data);
     });
 });
 
@@ -75,6 +82,15 @@ router.get("/frequentCustomer", validateToken, async(req,res) => {
         res.send(data);
     });
 });
+
+router.post("/viewCustomerFlights", validateToken, async(req,res) => {
+    Ticket.viewCustomerFlightsInAirline(req.user.staff.airline_name, req.body.email, (err,data) => {
+        if (err) throw err;
+        console.log(data)
+        res.send(data);
+    });
+});
+
 
 router.get("/revenue/year", validateToken, async(req,res) => {
     Ticket.pastYearRevenue(req.user.staff.airline_name, (err,data) => {
