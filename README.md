@@ -1,6 +1,6 @@
 ## How To Use Application
 1. Clone the application. 
-2. Run the command 'npm init' to download all node packages. 
+2. Run the command 'npm install' to download all node packages. 
 3. In the client directory run 'npm run' to start React server. 
 4. In the server directory run 'node server.js' to start backend server.
 
