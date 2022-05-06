@@ -62,6 +62,10 @@ function CustomerHome() {
           setListOfFlights(response.data);
         }
       });
+      document.getElementById('dac').value = "";
+      document.getElementById('aac').value = "";
+      document.getElementById('dateA').value = "";
+      document.getElementById('dateB').value = "";
     };   
     
     const cancelFlight = (passed_ticket_id) => {
@@ -90,6 +94,7 @@ function CustomerHome() {
           <h3>Search For A Specific Upcoming Flight</h3>
           <label>Departure Airport Code:</label>
           <input
+            id = "dac"
             type="text"
             onChange={(event) => {
               source_city = event.target.value;
@@ -97,6 +102,7 @@ function CustomerHome() {
           />
           <label>Arrival Airport Code:</label>
           <input
+            id = "aac"
             type="text"
             onChange={(event) => {
               dest_city = event.target.value;
@@ -104,12 +110,14 @@ function CustomerHome() {
           />
           <label>Date Range:</label>
           <input
+            id = "dateA"
             type="text"
             onChange={(event) => {
               dateA = event.target.value;
             }}
           />--- 
           <input 
+            id = "dateB"
             type="text"
             onChange={(event) => {
               dateB = event.target.value;
