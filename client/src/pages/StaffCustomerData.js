@@ -46,8 +46,6 @@ function StaffReview() {
       });
     }, []);
 
-    //let email_address;
-
     const viewCustomerFlights = (evt) => {
       evt.preventDefault();
       console.log(email)

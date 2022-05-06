@@ -13,7 +13,7 @@ function CustomerHome() {
     if (user!="customer") {
       window.location.replace('/')
     }
-    /*
+    
     const genHome = () => {
       console.log("genHome called");
       axios.get("http://localhost:3001/customer/viewMyFlights",
@@ -29,7 +29,7 @@ function CustomerHome() {
           setListOfFlights(response.data);
         }
       });
-    }; */
+    }; 
 
     useEffect(() => {
       axios.get("http://localhost:3001/customer/viewMyFlights",
@@ -45,7 +45,6 @@ function CustomerHome() {
           setListOfFlights(response.data);
         }
       });
-     //genHome();
     }, []);
 
     const searchFlight = () => {
@@ -83,7 +82,8 @@ function CustomerHome() {
           console.log(response.data.error);
         } else {
           console.log('Data will be removed from ticket table');
-          window.location.reload(false);
+          //window.location.reload(false);
+          genHome();
         }
       })
     };

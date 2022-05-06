@@ -45,6 +45,7 @@ function CustomerReview() {
           } else {
             console.log("data will be inserted into Reviews table");
             setReviewState(false);
+            alert("Your review has been submitted");
           }
         });
       }; 
