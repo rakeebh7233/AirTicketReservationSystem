@@ -1,5 +1,8 @@
 ## How To Use Application
-Clone the application. Run the command 'npm init' to download all node packages. In the client directory run 'npm run' to start React server. In the server directory run 'node server.js' to start backend server.
+1. Clone the application. 
+2. Run the command 'npm init' to download all node packages. 
+3. In the client directory run 'npm run' to start React server. 
+4. In the server directory run 'node server.js' to start backend server.
 
 # Air Ticket Reservation System
 The course project for this semester is online Air Ticket Reservation System. There will be two types of  users of this system – Customers, and Airline Staff (Administrator). Using this system, customers can  search for flights (one way or round trip), purchase flights ticket, view their future flight status or see  their past flights etc. Airline Staff will add new airplanes, create new flights, and update flight status. In  general, this will be a simple air ticket reservation system.
