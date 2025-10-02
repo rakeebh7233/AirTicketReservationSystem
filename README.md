@@ -61,6 +61,17 @@ This project was built as a course project for **CS3083: Introduction to Databas
 * `routes/` – API routes for each resource
     * `Customer.js`, `Staff.js`, `Flight.js`, `Login.js`, `Register.js`
 
+## 📊 Database Models
+
+### Entity-Relationship (ER) Diagram
+Illustrates the main entities, attributes, and relationships in the system.
+<img width="997" height="373" alt="image" src="https://github.com/user-attachments/assets/62d34aca-3fba-4abf-a193-9f3dbbb409b6" />
+
+
+### Relational Model
+Shows tables, primary keys, foreign keys, and relationships in the database.
+<img width="596" height="746" alt="image" src="https://github.com/user-attachments/assets/473c299b-4ce0-400d-a6fe-d797a49025f2" />
+
 ## ⚙️ Installation & Setup
 1. Clone the repository:
 ```
