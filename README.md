@@ -81,9 +81,9 @@ cd air-ticket-reservation
     node server.js
     ```
 3. Database setup:
-* Install MySQL and create a database.
-* Run the schema from /server/models/ if provided.
-* Update db.js with your MySQL credentials.
+   * Install MySQL and create a database.
+   * Run the schema from /server/models/ if provided.
+   * Update db.js with your MySQL credentials.
 
 ## ▶️ Usage Workflows
 ### Customer Workflow
@@ -104,7 +104,7 @@ Public Workflow
 Search Flights (future only) → View Flight Status
 ```
 
-##📊 Example Reports (Staff Dashboard)
+## 📊 Example Reports (Staff Dashboard)
 * Revenue by Month
 * Top 3 Destinations (last 3 months / year)
 * Frequent Flyers
@@ -112,5 +112,6 @@ Search Flights (future only) → View Flight Status
 
 ## 🙌 Acknowledgements
 * Authors: **Rakeeb Hossain** & **Sunan Tajwar**
+* Professor Ratan Dey
 * PedroTech – Full Stack Web Development Course
 * MySQL & React documentation
